@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=23.0">
+<link rel="stylesheet" href="css/style.css?v=24.0">
 </head>
 <body>
 
@@ -26,9 +26,7 @@
 <!-- MOBILE SLIDE-DOWN MENU -->
 <div class="mobile-menu" id="mobileMenu">
   <a href="#top">Home</a>
-  <a href="#telemetry">Telemetry</a>
   <a href="#work">Work</a>
-  <a href="#studio">Studio</a>
   <a href="#services">Services</a>
   <a href="#process">Process</a>
   <a href="#contact">Start a project</a>
@@ -96,39 +94,31 @@
       <path class="side-nav__circuit-track1" d="M 0,15 A 185 485 0 0 1 0,985" stroke="url(#circuitGrad1)" stroke-width="1.2" stroke-dasharray="4 16" />
       <path class="side-nav__circuit-track2" d="M 0,35 A 176 465 0 0 1 0,965" stroke="url(#circuitGrad2)" stroke-width="1.0" stroke-dasharray="8 22" />
 
-      <!-- 8 Radial Sector Partition Lines Radiating from Middle of Original Circle (0, 500) Delimiting 7 Buttons -->
+      <!-- 6 Radial Sector Partition Lines Radiating from Middle of Original Circle (0, 500) Delimiting 5 Buttons -->
       <g class="side-nav__dividers" aria-hidden="true">
         <!-- Sector Divider 1: Top Boundary of Home -->
-        <line x1="0" y1="500" x2="73" y2="38" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
-        <circle cx="73" cy="38" r="1.8" fill="#ffb85c" opacity="0.45" />
+        <line x1="0" y1="500" x2="75" y2="40" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
+        <circle cx="75" cy="40" r="1.8" fill="#ffb85c" opacity="0.45" />
 
-        <!-- Sector Divider 2: Midpoint Between Home and Telemetry -->
-        <line x1="0" y1="500" x2="144" y2="175" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
-        <circle cx="144" cy="175" r="1.8" fill="#ffb85c" opacity="0.45" />
+        <!-- Sector Divider 2: Midpoint Between Home and Work -->
+        <line x1="0" y1="500" x2="156" y2="215" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
+        <circle cx="156" cy="215" r="1.8" fill="#ffb85c" opacity="0.45" />
         
-        <!-- Sector Divider 3: Midpoint Between Telemetry and Work -->
-        <line x1="0" y1="500" x2="176" y2="311" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
-        <circle cx="176" cy="311" r="1.8" fill="#ffb85c" opacity="0.45" />
+        <!-- Sector Divider 3: Midpoint Between Work and Services -->
+        <line x1="0" y1="500" x2="187" y2="405" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
+        <circle cx="187" cy="405" r="1.8" fill="#ffb85c" opacity="0.45" />
         
-        <!-- Sector Divider 4: Midpoint Between Work and Studio -->
-        <line x1="0" y1="500" x2="189" y2="443" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
-        <circle cx="189" cy="443" r="1.8" fill="#ffb85c" opacity="0.45" />
+        <!-- Sector Divider 4: Midpoint Between Services and Process -->
+        <line x1="0" y1="500" x2="187" y2="595" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
+        <circle cx="187" cy="595" r="1.8" fill="#ffb85c" opacity="0.45" />
         
-        <!-- Sector Divider 5: Midpoint Between Studio and Services -->
-        <line x1="0" y1="500" x2="188" y2="575" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
-        <circle cx="188" cy="575" r="1.8" fill="#ffb85c" opacity="0.45" />
-        
-        <!-- Sector Divider 6: Midpoint Between Services and Process -->
-        <line x1="0" y1="500" x2="173" y2="707" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
-        <circle cx="173" cy="707" r="1.8" fill="#ffb85c" opacity="0.45" />
-        
-        <!-- Sector Divider 7: Midpoint Between Process and Contact -->
-        <line x1="0" y1="500" x2="140" y2="838" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
-        <circle cx="140" cy="838" r="1.8" fill="#ffb85c" opacity="0.45" />
+        <!-- Sector Divider 5: Midpoint Between Process and Contact -->
+        <line x1="0" y1="500" x2="156" y2="785" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
+        <circle cx="156" cy="785" r="1.8" fill="#ffb85c" opacity="0.45" />
 
-        <!-- Sector Divider 8: Bottom Boundary of Contact -->
-        <line x1="0" y1="500" x2="73" y2="962" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
-        <circle cx="73" cy="962" r="1.8" fill="#ffb85c" opacity="0.45" />
+        <!-- Sector Divider 6: Bottom Boundary of Contact -->
+        <line x1="0" y1="500" x2="75" y2="960" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
+        <circle cx="75" cy="960" r="1.8" fill="#ffb85c" opacity="0.45" />
       </g>
     </svg>
 
@@ -149,7 +139,7 @@
       </div>
     </div>
 
-    <!-- 7 Curved Navigation Nodes mapped along the 100% height circular arc -->
+    <!-- 5 Curved Navigation Nodes mapped along the 100% height circular arc -->
     <div class="side-nav__items">
       <!-- 01: Home -->
       <a href="#top" class="side-nav__link side-nav__link--1 is-active" data-section="top" title="Home">
@@ -162,19 +152,8 @@
         </div>
       </a>
 
-      <!-- 02: Telemetry -->
-      <a href="#telemetry" class="side-nav__link side-nav__link--2" data-section="telemetry" title="Studio Telemetry">
-        <div class="side-nav__btn">
-          <span class="side-nav__pulse" aria-hidden="true"></span>
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-        </div>
-        <div class="side-nav__meta">
-          <span class="side-nav__label">Telemetry</span>
-        </div>
-      </a>
-
-      <!-- 03: Work -->
-      <a href="#work" class="side-nav__link side-nav__link--3" data-section="work" title="Selected Showcase">
+      <!-- 02: Work -->
+      <a href="#work" class="side-nav__link side-nav__link--2" data-section="work" title="Selected Showcase">
         <div class="side-nav__btn">
           <span class="side-nav__pulse" aria-hidden="true"></span>
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
@@ -184,19 +163,8 @@
         </div>
       </a>
 
-      <!-- 04: Studio -->
-      <a href="#studio" class="side-nav__link side-nav__link--4" data-section="studio" title="Studio &amp; Philosophy">
-        <div class="side-nav__btn">
-          <span class="side-nav__pulse" aria-hidden="true"></span>
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
-        </div>
-        <div class="side-nav__meta">
-          <span class="side-nav__label">Studio</span>
-        </div>
-      </a>
-
-      <!-- 05: Services -->
-      <a href="#services" class="side-nav__link side-nav__link--5" data-section="services" title="Services &amp; Capabilities">
+      <!-- 03: Services -->
+      <a href="#services" class="side-nav__link side-nav__link--3" data-section="services" title="Services &amp; Capabilities">
         <div class="side-nav__btn">
           <span class="side-nav__pulse" aria-hidden="true"></span>
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
@@ -206,8 +174,8 @@
         </div>
       </a>
 
-      <!-- 06: Process -->
-      <a href="#process" class="side-nav__link side-nav__link--6" data-section="process" title="Production Pipeline">
+      <!-- 04: Process -->
+      <a href="#process" class="side-nav__link side-nav__link--4" data-section="process" title="Production Pipeline">
         <div class="side-nav__btn">
           <span class="side-nav__pulse" aria-hidden="true"></span>
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
@@ -217,8 +185,8 @@
         </div>
       </a>
 
-      <!-- 07: Contact -->
-      <a href="#contact" class="side-nav__link side-nav__link--7" data-section="contact" title="Start a Project">
+      <!-- 05: Contact -->
+      <a href="#contact" class="side-nav__link side-nav__link--5" data-section="contact" title="Start a Project">
         <div class="side-nav__btn">
           <span class="side-nav__pulse" aria-hidden="true"></span>
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
@@ -273,6 +241,42 @@
       <a href="#work" class="btn btn--primary">Explore the work</a>
       <a href="#contact" class="btn btn--ghost">Start a project</a>
     </div>
+
+    <!-- Compact Studio Telemetry HUD / Metrics Strip -->
+    <div class="hero__telemetry-hud">
+      <div class="hero__telemetry-top">
+        <div class="hero__telemetry-status">
+          <span class="hero__telemetry-pulse"></span>
+          <span class="hero__telemetry-tag">PRODUCTION AUDIT &bull; LIVE TELEMETRY</span>
+        </div>
+        <span class="hero__telemetry-badge">⚡ 4.8X VELOCITY</span>
+      </div>
+      <div class="hero__telemetry-grid">
+        <div class="hero__telemetry-cell">
+          <span class="hero__telemetry-val">11<span class="hero__telemetry-unit">d</span></span>
+          <span class="hero__telemetry-lbl">Turnaround Velocity</span>
+        </div>
+        <div class="hero__telemetry-cell">
+          <span class="hero__telemetry-val">46<span class="hero__telemetry-unit">+</span></span>
+          <span class="hero__telemetry-lbl">Global Markets</span>
+        </div>
+        <div class="hero__telemetry-cell">
+          <span class="hero__telemetry-val">100<span class="hero__telemetry-unit">+</span></span>
+          <span class="hero__telemetry-lbl">Master Cuts</span>
+        </div>
+        <div class="hero__telemetry-cell">
+          <span class="hero__telemetry-val">99.8<span class="hero__telemetry-unit">%</span></span>
+          <span class="hero__telemetry-lbl">Client Sign-Off</span>
+        </div>
+      </div>
+      <div class="hero__telemetry-subbar">
+        <span>⚡ 4K HDR Cinema Native</span>
+        <span>•</span>
+        <span>&lt; 48h First Cut Latency</span>
+        <span>•</span>
+        <span>Human-Directed Neural VFX</span>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -289,137 +293,6 @@
     <span>Generative AI Pipelines</span><span>·</span>
   </div>
 </div>
-
-<!-- EXECUTIVE STUDIO PRODUCTION ANALYTICS & TELEMETRY SECTION -->
-<section class="telemetry-section" id="telemetry">
-  <div class="section-head section-head--split">
-    <div>
-      <div class="eyebrow eyebrow--studio">
-        <span class="eyebrow__dot"></span>
-        <span>Studio Intelligence &bull; Live Telemetry</span>
-      </div>
-      <h2>Executive Production<br>Audit &amp; Intelligence.</h2>
-    </div>
-    <p class="section-head__note">Real-time studio velocity metrics, global distribution reach, and client sign-off audit powered by 100 International's proprietary Generative AI pipeline 2.4.</p>
-  </div>
-
-  <div class="telemetry-container">
-    <!-- Console Container -->
-    <div class="hero__analytics-console telemetry__console">
-      <!-- Console Header Bar -->
-      <div class="hero__analytics-header">
-        <div class="hero__analytics-status">
-          <span class="hero__analytics-pulse"></span>
-          <span class="hero__analytics-tag">PRODUCTION AUDIT &bull; LIVE TELEMETRY</span>
-        </div>
-        <div class="hero__analytics-meta">
-          <span class="hero__analytics-badge">⚡ 4.8X VELOCITY MULTIPLIER</span>
-          <span class="hero__analytics-subtag">GEN-AI PIPELINE 2.4</span>
-        </div>
-      </div>
-
-      <!-- Analytics Metrics Grid -->
-      <div class="hero__analytics-grid">
-        <!-- Analysis Column 1: Velocity -->
-        <div class="hero__analytics-card">
-          <div class="hero__analytics-top">
-            <span class="hero__analytics-lbl">Turnaround Velocity</span>
-            <span class="hero__analytics-trend hero__analytics-trend--up">▲ 81% FAST</span>
-          </div>
-          <div class="hero__analytics-val-wrap">
-            <span class="hero__analytics-num" data-count="11">11</span>
-            <span class="hero__analytics-unit">Days</span>
-          </div>
-          <p class="hero__analytics-desc">Brief to 4K Master Delivery</p>
-          
-          <!-- Mini Sparkline Graph -->
-          <div class="hero__analytics-graph" aria-hidden="true">
-            <svg viewBox="0 0 200 28" class="hero__analytics-svg">
-              <defs>
-                <linearGradient id="sparkGrad1" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#ff7a1a" stop-opacity="0.35"/>
-                  <stop offset="100%" stop-color="#ff7a1a" stop-opacity="0.0"/>
-                </linearGradient>
-              </defs>
-              <path d="M0,24 Q50,22 95,14 T165,6 T200,4 L200,28 L0,28 Z" fill="url(#sparkGrad1)"/>
-              <path d="M0,24 Q50,22 95,14 T165,6 T200,4" fill="none" stroke="#ff7a1a" stroke-width="2" stroke-linecap="round"/>
-              <circle cx="200" cy="4" r="3.5" fill="#ffb85c" />
-            </svg>
-            <span class="hero__analytics-note">Cycle Time (vs 60d Trad.)</span>
-          </div>
-        </div>
-
-        <div class="hero__analytics-divider" aria-hidden="true"></div>
-
-        <!-- Analysis Column 2: Global Release -->
-        <div class="hero__analytics-card">
-          <div class="hero__analytics-top">
-            <span class="hero__analytics-lbl">Global Distribution</span>
-            <span class="hero__analytics-trend hero__analytics-trend--live">● WORLDWIDE</span>
-          </div>
-          <div class="hero__analytics-val-wrap">
-            <span class="hero__analytics-num" data-count="46">46</span>
-            <span class="hero__analytics-unit">Countries</span>
-          </div>
-          <p class="hero__analytics-desc">Broadcast Across Global Markets</p>
-
-          <!-- Multi-Segment Distribution Bar -->
-          <div class="hero__analytics-graph" aria-hidden="true">
-            <div class="hero__analytics-bar-wrap">
-              <div class="hero__analytics-bar hero__analytics-bar--p1" style="width: 52%;" title="Cinema & OTT"></div>
-              <div class="hero__analytics-bar hero__analytics-bar--p2" style="width: 32%;" title="Commercial Broadcast"></div>
-              <div class="hero__analytics-bar hero__analytics-bar--p3" style="width: 16%;" title="Social 9:16"></div>
-            </div>
-            <div class="hero__analytics-legend">
-              <span>Cinema &bull; 52%</span>
-              <span>Broadcast &bull; 32%</span>
-              <span>Social &bull; 16%</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="hero__analytics-divider" aria-hidden="true"></div>
-
-        <!-- Analysis Column 3: Output Volume -->
-        <div class="hero__analytics-card">
-          <div class="hero__analytics-top">
-            <span class="hero__analytics-lbl">Production Volume</span>
-            <span class="hero__analytics-trend hero__analytics-trend--star">★ 99.8% SIGN-OFF</span>
-          </div>
-          <div class="hero__analytics-val-wrap">
-            <span class="hero__analytics-num" data-count="100">100</span>
-            <span class="hero__analytics-unit">+ Cuts</span>
-          </div>
-          <p class="hero__analytics-desc">Commercial &amp; Narrative Films</p>
-
-          <!-- Meter Progress -->
-          <div class="hero__analytics-graph" aria-hidden="true">
-            <div class="hero__analytics-meter">
-              <div class="hero__analytics-meter-fill" style="width: 99.8%;"></div>
-            </div>
-            <span class="hero__analytics-note">Client Acceptance Rate</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Bottom Telemetry Footer Strip -->
-      <div class="hero__analytics-footer">
-        <div class="hero__analytics-fitem">
-          <span class="hero__analytics-fdot"></span>
-          <span>Latency: <strong>&lt; 48h</strong> First Cut</span>
-        </div>
-        <div class="hero__analytics-fitem">
-          <span class="hero__analytics-fdot"></span>
-          <span>Pipeline: <strong>Human-Directed</strong> Neural VFX</span>
-        </div>
-        <div class="hero__analytics-fitem">
-          <span class="hero__analytics-fdot"></span>
-          <span>Format: <strong>4K HDR</strong> Cinema Native</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- SHOWREEL & SELECTED WORK SECTION -->
 <section class="work-section" id="work">
@@ -667,66 +540,6 @@
   </div>
 </section>
 
-<!-- STUDIO & PHILOSOPHY SECTION -->
-<section class="studio" id="studio">
-  <div class="studio__grid">
-    <div class="studio__label">
-      <p class="eyebrow">The Studio</p>
-      <h2>A production house<br>that never runs out<br>of takes.</h2>
-    </div>
-    <div class="studio__copy">
-      <p>100 International Universe is a film and advertising studio built around generative AI pipelines and a dedicated team of directors, editors and sound designers who steer them. No sets to strike, no weather to wait out &mdash; just faster iteration toward the shot that works.</p>
-      <p>The studio was founded on a simple bet: that the bottleneck in film production has always been logistics, not imagination. Remove the logistics, and a small, obsessive team can output at a scale that used to need a backlot.</p>
-
-      <div class="studio__stats">
-        <div class="stat">
-          <span class="stat__num" data-count="11">0</span>
-          <span class="stat__label">days, average brief-to-delivery</span>
-        </div>
-        <div class="stat">
-          <span class="stat__num" data-count="46">0</span>
-          <span class="stat__label">countries our work has shipped to</span>
-        </div>
-        <div class="stat">
-          <span class="stat__num" data-count="100" data-suffix="+">0</span>
-          <span class="stat__label">productions completed to date</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Studio Principles Cards -->
-  <div class="studio__principles">
-    <div class="principle-card">
-      <div class="principle-card__hud" aria-hidden="true">
-        <span class="hud-tl"></span><span class="hud-tr"></span>
-        <span class="hud-bl"></span><span class="hud-br"></span>
-      </div>
-      <span class="principle-card__num">01 / HUMAN DIRECTION</span>
-      <h3>A human approves every frame</h3>
-      <p>Generation is fast, but nothing leaves the studio without a director, editor or colourist signing off on it first.</p>
-    </div>
-    <div class="principle-card">
-      <div class="principle-card__hud" aria-hidden="true">
-        <span class="hud-tl"></span><span class="hud-tr"></span>
-        <span class="hud-bl"></span><span class="hud-br"></span>
-      </div>
-      <span class="principle-card__num">02 / UNCOMPROMISED QUALITY</span>
-      <h3>Craft over speed, when they conflict</h3>
-      <p>Turnaround is a feature, not the point &mdash; a slower right answer beats a fast wrong one every single time.</p>
-    </div>
-    <div class="principle-card">
-      <div class="principle-card__hud" aria-hidden="true">
-        <span class="hud-tl"></span><span class="hud-tr"></span>
-        <span class="hud-bl"></span><span class="hud-br"></span>
-      </div>
-      <span class="principle-card__num">03 / GLOBAL LOCALISATION</span>
-      <h3>Built for the market it's shown in</h3>
-      <p>Language, pacing and cultural reference points are treated as part of the core brief, not an afterthought in post.</p>
-    </div>
-  </div>
-</section>
-
 <!-- SERVICES & FORMATS SECTION -->
 <section class="services" id="services">
   <div class="section-head section-head--split">
@@ -784,62 +597,93 @@
   </div>
 </section>
 
-<!-- PRODUCTION PROCESS SECTION -->
+<!-- PRODUCTION PROCESS SECTION (SIMPLIFIED CONSOLE FRAME) -->
 <section class="process" id="process">
   <div class="section-head section-head--split">
     <div>
       <p class="eyebrow">The Pipeline</p>
       <h2>From brief to<br>final master.</h2>
     </div>
-    <p class="section-head__note">Five stages take a project from a one-page idea to a mastered, market-ready film in days, not months.</p>
+    <p class="section-head__note">A streamlined 5-phase generative production pipeline delivering cinema-grade films in days, not months.</p>
   </div>
 
-  <ol class="process__list">
-    <li class="process__step">
-      <span class="process__num">01</span>
-      <div>
-        <h3>Concept &amp; script</h3>
-        <p>Directors and writers turn a brief into a cinematic script, shot list, lighting palette and visual reference board.</p>
+  <div class="process__frame-wrap">
+    <div class="process__frame">
+      <!-- Frame Top Bar -->
+      <div class="process__frame-header">
+        <div class="process__frame-status">
+          <span class="process__frame-dot"></span>
+          <span class="process__frame-tag">PIPELINE ORCHESTRATION &bull; 2.4</span>
+        </div>
+        <div class="process__frame-meta">
+          <span class="process__frame-badge">⚡ 11-DAY TURNAROUND</span>
+          <span class="process__frame-subtag">5 CONTINUOUS PHASES</span>
+        </div>
       </div>
-    </li>
-    <li class="process__step">
-      <span class="process__num">02</span>
-      <div>
-        <h3>AI multi-take generation</h3>
-        <p>Custom trained pipelines generate character performance, complex camera passes, and environments across hundreds of takes in parallel.</p>
-      </div>
-    </li>
-    <li class="process__step">
-      <span class="process__num">03</span>
-      <div>
-        <h3>Human direction &amp; assembly</h3>
-        <p>Senior editors and colourists select, assemble, and grade &mdash; every single frame approved by a human creative director.</p>
-      </div>
-    </li>
-    <li class="process__step">
-      <span class="process__num">04</span>
-      <div>
-        <h3>Sound, score &amp; Foley</h3>
-        <p>Original score, sound design, dialogue enhancement and Dolby/5.1 mix layered against picture lock for cinema impact.</p>
-      </div>
-    </li>
-    <li class="process__step">
-      <span class="process__num">05</span>
-      <div>
-        <h3>Mastering &amp; global delivery</h3>
-        <p>Mastered for broadcast, social and cinema &mdash; in every aspect ratio, color space (DCI-P3/Rec.709) and regional language needed.</p>
-      </div>
-    </li>
-  </ol>
-</section>
 
-<!-- CTA INTERLUDE -->
-<section class="cta-band">
-  <div class="cta-band__grid" aria-hidden="true"></div>
-  <p class="eyebrow">Ready when you are</p>
-  <h2>Bring us a brief,<br>we'll bring the rest.</h2>
-  <p>Share an idea, a deadline and an estimated scope &mdash; a producer replies within one working day.</p>
-  <a href="#contact" class="btn btn--primary">Commission a project</a>
+      <!-- Frame Step Grid / Pipeline Flow -->
+      <div class="process__grid">
+        <!-- Step 1 -->
+        <div class="process__card">
+          <div class="process__card-top">
+            <span class="process__card-num">01</span>
+            <span class="process__card-tag">TREATMENT</span>
+          </div>
+          <h3 class="process__card-title">Concept &amp; Script</h3>
+          <p class="process__card-desc">Cinematic script, shot lists, lighting palette &amp; visual reference board.</p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="process__card">
+          <div class="process__card-top">
+            <span class="process__card-num">02</span>
+            <span class="process__card-tag">GENERATION</span>
+          </div>
+          <h3 class="process__card-title">Neural Takes</h3>
+          <p class="process__card-desc">Character performance, camera choreography &amp; volumetric environments in parallel.</p>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="process__card">
+          <div class="process__card-top">
+            <span class="process__card-num">03</span>
+            <span class="process__card-tag">DIRECTION</span>
+          </div>
+          <h3 class="process__card-title">Creative Edit</h3>
+          <p class="process__card-desc">Senior directors and editors assemble, grade, and approve every single frame.</p>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="process__card">
+          <div class="process__card-top">
+            <span class="process__card-num">04</span>
+            <span class="process__card-tag">AUDIO</span>
+          </div>
+          <h3 class="process__card-title">Sound &amp; Score</h3>
+          <p class="process__card-desc">Original soundtrack, Foley effects, and immersive Dolby 5.1 spatial mix.</p>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="process__card">
+          <div class="process__card-top">
+            <span class="process__card-num">05</span>
+            <span class="process__card-tag">DELIVERY</span>
+          </div>
+          <h3 class="process__card-title">4K Master</h3>
+          <p class="process__card-desc">Cinema-ready 4K HDR delivery across all aspect ratios and global broadcast formats.</p>
+        </div>
+      </div>
+
+      <!-- Frame Footer Bar -->
+      <div class="process__frame-footer">
+        <span>✓ Human-Approved Quality Gate</span>
+        <span>•</span>
+        <span>DCI-P3 / Rec.709 Colour Grade</span>
+        <span>•</span>
+        <span>Confidential NDA Guaranteed</span>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- PROJECT BRIEF / CONTACT SECTION -->
@@ -918,7 +762,6 @@
       <span class="footer__heading">Navigation</span>
       <a href="#top">Home</a>
       <a href="#work">Selected Work</a>
-      <a href="#studio">The Studio</a>
       <a href="#services">Capabilities</a>
       <a href="#process">Pipeline</a>
       <a href="#contact">Start a Project</a>
@@ -960,6 +803,6 @@
 </div>
 
 <!-- Studio JavaScript -->
-<script src="js/main.js?v=23.0"></script>
+<script src="js/main.js?v=24.0"></script>
 </body>
 </html>
