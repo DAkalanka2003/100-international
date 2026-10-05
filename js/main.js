@@ -4,74 +4,63 @@
   /* ---------- Fullscreen Hero Background 3D Video Playback Engine ---------- */
   const heroBgVideo = document.getElementById('heroBgVideo');
   if (heroBgVideo) {
-    // 1.0x native smooth playback rate (eliminates frame-drop stutter)
-    heroBgVideo.playbackRate = 1.0;
-    heroBgVideo.defaultPlaybackRate = 1.0;
     heroBgVideo.muted = true;
     heroBgVideo.defaultMuted = true;
     heroBgVideo.playsInline = true;
     heroBgVideo.loop = true;
-    heroBgVideo.setAttribute('playsinline', '');
-    heroBgVideo.setAttribute('webkit-playsinline', '');
-    heroBgVideo.setAttribute('loop', '');
-    heroBgVideo.setAttribute('autoplay', '');
-    heroBgVideo.setAttribute('muted', '');
 
+    let isPlaying = false;
     const playVideo = () => {
-      heroBgVideo.playbackRate = 1.0;
-      if (heroBgVideo.paused) {
+      if (heroBgVideo.paused && !isPlaying) {
+        isPlaying = true;
+        heroBgVideo.muted = true;
         const playPromise = heroBgVideo.play();
         if (playPromise !== undefined) {
-          playPromise.catch(() => {
-            heroBgVideo.muted = true;
-            heroBgVideo.play().catch(() => {});
+          playPromise.then(() => {
+            isPlaying = false;
+          }).catch(() => {
+            isPlaying = false;
           });
+        } else {
+          isPlaying = false;
         }
       }
     };
 
-    heroBgVideo.addEventListener('loadedmetadata', playVideo);
-    heroBgVideo.addEventListener('canplay', playVideo);
-    heroBgVideo.addEventListener('ended', playVideo);
+    if (heroBgVideo.readyState >= 2) {
+      playVideo();
+    } else {
+      heroBgVideo.addEventListener('canplay', playVideo, { once: true });
+      heroBgVideo.addEventListener('loadeddata', playVideo, { once: true });
+    }
 
-    // Never stop or pause the video during scroll, touch, or gestures
-    heroBgVideo.addEventListener('pause', () => {
-      if (!document.hidden) {
-        playVideo();
-      }
-    });
-
-    playVideo();
-
-    // Auto-resume playback smoothly if user switches tabs and returns
+    // Auto-resume playback if tab becomes visible
     document.addEventListener('visibilitychange', () => {
       if (!document.hidden && heroBgVideo.paused) {
         playVideo();
       }
     });
 
-    // Keep video continuously playing across scroll, touch, touchpad, and icon clicks
-    const keepVideoPlaying = () => {
-      if (heroBgVideo.paused && !document.hidden) {
-        playVideo();
-      }
-    };
-    window.addEventListener('scroll', keepVideoPlaying, { passive: true });
-    window.addEventListener('wheel', keepVideoPlaying, { passive: true });
-    window.addEventListener('touchmove', keepVideoPlaying, { passive: true });
-    window.addEventListener('touchstart', keepVideoPlaying, { passive: true });
-    window.addEventListener('pointerdown', keepVideoPlaying, { passive: true });
-
-    // Fallback play trigger on first user interaction if browser blocked initial autoplay
-    const unlockPlay = () => {
+    // Handle seamless loop fallback
+    heroBgVideo.addEventListener('ended', () => {
+      heroBgVideo.currentTime = 0;
       playVideo();
-      window.removeEventListener('pointerdown', unlockPlay);
-      window.removeEventListener('scroll', unlockPlay);
-      window.removeEventListener('touchstart', unlockPlay);
+    });
+
+    // Resume cleanly if paused unexpectedly while page is visible
+    heroBgVideo.addEventListener('pause', () => {
+      if (!document.hidden) {
+        setTimeout(playVideo, 40);
+      }
+    });
+
+    // Single gesture unlock if browser autoplay policy required interaction
+    const unlockPlay = () => {
+      if (heroBgVideo.paused) playVideo();
     };
-    window.addEventListener('pointerdown', unlockPlay, { passive: true, once: true });
-    window.addEventListener('scroll', unlockPlay, { passive: true, once: true });
-    window.addEventListener('touchstart', unlockPlay, { passive: true, once: true });
+    window.addEventListener('click', unlockPlay, { once: true, passive: true });
+    window.addEventListener('touchstart', unlockPlay, { once: true, passive: true });
+    window.addEventListener('scroll', unlockPlay, { once: true, passive: true });
   }
 
   /* =========================================================
@@ -1073,7 +1062,7 @@
     // -------------------------------------------------------------
     // BACKGROUND EMBERS (GINI PUPURU - Living Atmospheric Animated Sparks)
     // -------------------------------------------------------------
-    const MAX_BG_EMBERS = 80;
+    const MAX_BG_EMBERS = 42;
     const bgEmbers = [];
 
     class BgEmber {
