@@ -1595,6 +1595,18 @@
       isUserInteracting = false;
     });
 
+    track.querySelectorAll('.reel__card').forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        if (!carousel.classList.contains('is-filtered')) {
+          const cards = getVisibleCards();
+          const idx = cards.indexOf(card);
+          if (idx !== -1) {
+            goToIndex(idx);
+          }
+        }
+      });
+    });
+
     let touchStartX = 0;
     let touchStartY = 0;
     let isSwiping = false;
@@ -1684,33 +1696,48 @@
       });
     }
 
-    function step() {
+    function advance() {
       if (!isPaused && isInView && document.visibilityState === 'visible') {
-        highlightIndex(activeIndex);
         activeIndex = (activeIndex + 1) % services.length;
+        highlightIndex(activeIndex);
       }
     }
 
-    function startCycle() {
-      if (timer) clearInterval(timer);
-      timer = setInterval(step, 2800);
-      step();
+    function startTimer() {
+      stopTimer();
+      timer = setInterval(advance, 2800);
     }
 
-    services.forEach(card => {
+    function stopTimer() {
+      if (timer) {
+        clearInterval(timer);
+        timer = null;
+      }
+    }
+
+    services.forEach((card, idx) => {
       card.addEventListener('mouseenter', () => {
         isPaused = true;
-        services.forEach(c => c.classList.remove('is-auto-highlighted'));
+        stopTimer();
+        activeIndex = idx;
+        highlightIndex(idx);
       });
+
       card.addEventListener('mouseleave', () => {
         isPaused = false;
+        startTimer();
       });
+
       card.addEventListener('touchstart', () => {
         isPaused = true;
-        services.forEach(c => c.classList.remove('is-auto-highlighted'));
+        stopTimer();
+        activeIndex = idx;
+        highlightIndex(idx);
       }, { passive: true });
+
       card.addEventListener('touchend', () => {
         isPaused = false;
+        startTimer();
       }, { passive: true });
     });
 
@@ -1719,15 +1746,19 @@
       const io = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           isInView = entry.isIntersecting;
-          if (isInView && !timer) {
-            startCycle();
+          if (isInView) {
+            highlightIndex(activeIndex);
+            startTimer();
+          } else {
+            stopTimer();
           }
         });
       }, { threshold: 0.15 });
       io.observe(section);
     } else {
       isInView = true;
-      startCycle();
+      highlightIndex(activeIndex);
+      startTimer();
     }
   }
 
@@ -1753,51 +1784,69 @@
       });
     }
 
-    function step() {
+    function advance() {
       if (!isPaused && isInView && document.visibilityState === 'visible') {
-        highlightIndex(activeIndex);
         activeIndex = (activeIndex + 1) % processCards.length;
+        highlightIndex(activeIndex);
       }
     }
 
-    function startCycle() {
-      if (timer) clearInterval(timer);
-      timer = setInterval(step, 2500);
-      step();
+    function startTimer() {
+      stopTimer();
+      timer = setInterval(advance, 2500);
     }
 
-    const container = document.querySelector('.process__console') || document.querySelector('.process__grid') || document.querySelector('.process');
-    if (container) {
-      container.addEventListener('mouseenter', () => {
-        isPaused = true;
-        processCards.forEach(c => c.classList.remove('is-auto-highlighted'));
-      });
-      container.addEventListener('mouseleave', () => {
-        isPaused = false;
-      });
-      container.addEventListener('touchstart', () => {
-        isPaused = true;
-        processCards.forEach(c => c.classList.remove('is-auto-highlighted'));
-      }, { passive: true });
-      container.addEventListener('touchend', () => {
-        isPaused = false;
-      }, { passive: true });
+    function stopTimer() {
+      if (timer) {
+        clearInterval(timer);
+        timer = null;
+      }
     }
+
+    processCards.forEach((card, idx) => {
+      card.addEventListener('mouseenter', () => {
+        isPaused = true;
+        stopTimer();
+        activeIndex = idx;
+        highlightIndex(idx);
+      });
+
+      card.addEventListener('mouseleave', () => {
+        isPaused = false;
+        startTimer();
+      });
+
+      card.addEventListener('touchstart', () => {
+        isPaused = true;
+        stopTimer();
+        activeIndex = idx;
+        highlightIndex(idx);
+      }, { passive: true });
+
+      card.addEventListener('touchend', () => {
+        isPaused = false;
+        startTimer();
+      }, { passive: true });
+    });
 
     const section = document.querySelector('.process');
     if (section && 'IntersectionObserver' in window) {
       const io = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           isInView = entry.isIntersecting;
-          if (isInView && !timer) {
-            startCycle();
+          if (isInView) {
+            highlightIndex(activeIndex);
+            startTimer();
+          } else {
+            stopTimer();
           }
         });
       }, { threshold: 0.15 });
       io.observe(section);
     } else {
       isInView = true;
-      startCycle();
+      highlightIndex(activeIndex);
+      startTimer();
     }
   }
 
