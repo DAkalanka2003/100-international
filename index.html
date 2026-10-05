@@ -313,7 +313,7 @@
         <span class="eyebrow__dot"></span>
         <span>Selected Showcase &bull; Studio Archive</span>
       </div>
-      <h2 class="work-section__title">Recent frames from the universe.</h2>
+      <h2>Recent frames from the universe.</h2>
     </div>
     <p class="section-head__note">A curated archive of narrative shorts, global brand spots and music videos engineered through human-directed generative AI pipelines. Click any frame to launch the 4K Cinema Showcase.</p>
   </div>
@@ -348,11 +348,12 @@
     </div>
   </div>
 
-  <div class="reel-carousel-wrap">
-    <button type="button" class="reel-carousel__nav reel-carousel__nav--prev" id="reelPrevBtn" aria-label="Previous Showcase Card">
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+  <div class="reel-carousel" id="reelCarousel">
+    <button type="button" class="reel-carousel__arrow reel-carousel__arrow--prev" id="reelPrev" aria-label="Previous reel">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
     </button>
-    <div class="reel" id="reelTrack">
+    <div class="reel-carousel__viewport" id="reelViewport">
+      <div class="reel" id="reelTrack">
     <!-- Shot 1: Ashen Horizon -->
     <article class="reel__card"
              data-category-tag="short sci-fi"
@@ -552,11 +553,13 @@
         </div>
       </div>
     </article>
+      </div>
     </div>
-    <button type="button" class="reel-carousel__nav reel-carousel__nav--next" id="reelNextBtn" aria-label="Next Showcase Card">
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    <button type="button" class="reel-carousel__arrow reel-carousel__arrow--next" id="reelNext" aria-label="Next reel">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
     </button>
   </div>
+  <div class="reel-carousel__indicators" id="reelIndicators" aria-label="Carousel pagination"></div>
 </section>
 
 <!-- SERVICES & FORMATS SECTION -->

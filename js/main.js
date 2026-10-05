@@ -435,23 +435,17 @@
 
         reelCards.forEach(card => {
           const category = card.dataset.categoryTag || '';
-          card.style.opacity = '';
-          card.style.transform = '';
           if (filter === 'all' || category.includes(filter)) {
             card.classList.remove('is-hidden');
+            card.style.opacity = '';
+            card.style.transform = '';
           } else {
             card.classList.add('is-hidden');
-            card.classList.remove('is-center');
           }
         });
 
-        // Center first visible card in carousel
-        const track = document.getElementById('reelTrack');
-        const visible = Array.from(reelCards).filter(c => !c.classList.contains('is-hidden'));
-        if (track && visible.length) {
-          const trackCenter = track.offsetWidth / 2;
-          const cardCenter = visible[0].offsetLeft + (visible[0].offsetWidth / 2);
-          track.scrollTo({ left: Math.max(0, cardCenter - trackCenter), behavior: 'smooth' });
+        if (window.refreshReelCarousel) {
+          window.refreshReelCarousel();
         }
       });
     });
@@ -527,9 +521,18 @@
 
   document.querySelectorAll('.reel__card').forEach(card => {
     card.addEventListener('click', (e) => {
-      if (card.classList.contains('is-center') || e.target.closest('.reel__play-wrap') || e.target.closest('.reel__play')) {
-        openCinemaModal(card);
+      const carouselTrack = document.getElementById('reelTrack');
+      if (carouselTrack && card.parentElement === carouselTrack) {
+        if (!card.classList.contains('is-center')) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (window.reelCarouselGoToCard) {
+            window.reelCarouselGoToCard(card);
+          }
+          return;
+        }
       }
+      openCinemaModal(card);
     });
   });
 
@@ -576,23 +579,26 @@
      6. REEL CARDS SCROLL REVEAL & HOVER VIDEO AUTO-PLAY ENGINE
      ========================================================= */
   if (reelCards && reelCards.length) {
-    // Normal smooth scroll reveal without 3D perspective distortion
-    reelCards.forEach(card => {
-      card.style.opacity = '0';
-      card.style.transform = 'translateY(22px)';
-      card.style.transition = 'opacity .7s var(--ease), transform .7s var(--ease), box-shadow .35s var(--ease)';
-    });
-
-    const cardIO = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
-          cardIO.unobserve(entry.target);
-        }
+    const hasCarousel = document.getElementById('reelCarousel');
+    if (!hasCarousel) {
+      // Normal smooth scroll reveal without 3D perspective distortion
+      reelCards.forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(22px)';
+        card.style.transition = 'opacity .7s var(--ease), transform .7s var(--ease), box-shadow .35s var(--ease)';
       });
-    }, { threshold: 0.1 });
-    reelCards.forEach(card => cardIO.observe(card));
+
+      const cardIO = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '';
+            entry.target.style.transform = '';
+            cardIO.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      reelCards.forEach(card => cardIO.observe(card));
+    }
 
     // Hover Video Preview Auto-Play (smooth individual video clip playback)
     reelCards.forEach(card => {
@@ -646,8 +652,8 @@
   const revealIO = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
+        entry.target.style.opacity = '';
+        entry.target.style.transform = '';
         revealIO.unobserve(entry.target);
       }
     });
@@ -746,8 +752,8 @@
     initNavFireEngine();
     initMacScrollReveals();
     initReelCarousel();
-    initServicesAutoplay();
-    initProcessAutoplay();
+    initServicesAutoHighlight();
+    initProcessAutoHighlight();
   }
 
   /* =========================================================
@@ -1331,7 +1337,7 @@
     const revealSelectors = [
       '.section-head',
       '.hero__telemetry-hud',
-      '.reel__card',
+      '.reel-carousel',
       '.service',
       '.process__frame',
       '.process__card',
@@ -1390,277 +1396,384 @@
     window.addEventListener('scroll', onScrollRevealTick, { passive: true });
     window.addEventListener('resize', onScrollRevealTick, { passive: true });
 
+    // Initial view fallback
+    setTimeout(checkReveals, 150);
+  }
+
   /* =========================================================
-     14. SHOWREEL SINGLE-ROW AUTOPLAY CAROUSEL WITH CENTER HIGHLIGHT
+     13. SHOWREEL SINGLE-LINE AUTO-PLAY CENTERING CAROUSEL
      ========================================================= */
   function initReelCarousel() {
+    const carousel = document.getElementById('reelCarousel');
+    const viewport = document.getElementById('reelViewport');
     const track = document.getElementById('reelTrack');
-    if (!track) return;
+    const prevBtn = document.getElementById('reelPrev');
+    const nextBtn = document.getElementById('reelNext');
+    const indicatorsContainer = document.getElementById('reelIndicators');
 
-    const cards = Array.from(track.querySelectorAll('.reel__card'));
-    if (!cards.length) return;
-
-    const prevBtn = document.getElementById('reelPrevBtn');
-    const nextBtn = document.getElementById('reelNextBtn');
+    if (!carousel || !viewport || !track) return;
 
     let currentIndex = 0;
+    let autoplayInterval = null;
     let isUserInteracting = false;
-    let autoplayTimer = null;
-    let scrollTimeout = null;
+    let isVisibleInView = true;
 
     function getVisibleCards() {
-      return cards.filter(card => !card.classList.contains('is-hidden') && card.offsetParent !== null);
+      return Array.from(track.querySelectorAll('.reel__card')).filter(card => {
+        return !card.classList.contains('is-hidden') && window.getComputedStyle(card).display !== 'none';
+      });
     }
 
-    function setCenterCard(card) {
-      cards.forEach(c => {
-        if (c === card) {
-          c.classList.add('is-center');
-          const video = c.querySelector('.reel__card-video');
-          if (video) {
-            try {
-              c.classList.add('is-video-playing');
-              const previewStart = parseFloat(c.dataset.previewStart || '0');
-              if (video.readyState >= 1) video.currentTime = previewStart;
-              const p = video.play();
-              if (p !== undefined) p.catch(() => {});
-            } catch (e) {}
-          }
+    function renderIndicators(cards) {
+      if (!indicatorsContainer) return;
+      indicatorsContainer.innerHTML = '';
+      if (cards.length <= 1) return;
+
+      cards.forEach((card, idx) => {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'reel-carousel__dot' + (idx === currentIndex ? ' is-active' : '');
+        dot.setAttribute('aria-label', `Go to reel ${idx + 1}: ${card.dataset.title || ''}`);
+        dot.addEventListener('click', (e) => {
+          e.preventDefault();
+          goToIndex(idx);
+          restartAutoplay();
+        });
+        indicatorsContainer.appendChild(dot);
+      });
+    }
+
+    function updateActiveStates(cards) {
+      cards.forEach((card, idx) => {
+        if (idx === currentIndex) {
+          card.classList.add('is-center');
+          card.setAttribute('aria-current', 'true');
         } else {
-          c.classList.remove('is-center');
-          const video = c.querySelector('.reel__card-video');
-          if (video) {
-            c.classList.remove('is-video-playing');
-            try { video.pause(); } catch (e) {}
+          card.classList.remove('is-center');
+          card.removeAttribute('aria-current');
+        }
+      });
+
+      if (indicatorsContainer) {
+        const dots = indicatorsContainer.querySelectorAll('.reel-carousel__dot');
+        dots.forEach((dot, idx) => {
+          if (idx === currentIndex) {
+            dot.classList.add('is-active');
+          } else {
+            dot.classList.remove('is-active');
           }
-        }
-      });
+        });
+      }
     }
 
-    function scrollToCard(card, smooth = true) {
+    function centerCurrentCard(smooth = true) {
+      const cards = getVisibleCards();
+      if (!cards.length) return;
+
+      if (currentIndex >= cards.length) currentIndex = 0;
+      if (currentIndex < 0) currentIndex = cards.length - 1;
+
+      const card = cards[currentIndex];
       if (!card) return;
-      const trackCenter = track.offsetWidth / 2;
+
+      const viewportWidth = viewport.clientWidth;
       const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
-      const targetScroll = Math.max(0, cardCenter - trackCenter);
+      const targetOffset = cardCenter - (viewportWidth / 2);
 
-      track.scrollTo({
-        left: targetScroll,
-        behavior: smooth ? 'smooth' : 'auto'
-      });
+      if (!smooth) {
+        track.style.transition = 'none';
+      } else {
+        track.style.transition = 'transform 0.65s cubic-bezier(0.16, 1, 0.3, 1)';
+      }
 
-      setCenterCard(card);
-      const visible = getVisibleCards();
-      const idx = visible.indexOf(card);
-      if (idx !== -1) currentIndex = idx;
+      track.style.transform = `translateX(-${targetOffset}px)`;
+
+      if (!smooth) {
+        void track.offsetWidth;
+        track.style.transition = 'transform 0.65s cubic-bezier(0.16, 1, 0.3, 1)';
+      }
+
+      updateActiveStates(cards);
     }
 
-    function scrollToIndex(index, smooth = true) {
-      const visible = getVisibleCards();
-      if (!visible.length) return;
-      currentIndex = (index + visible.length) % visible.length;
-      scrollToCard(visible[currentIndex], smooth);
+    function goToIndex(idx, smooth = true) {
+      const cards = getVisibleCards();
+      if (!cards.length) return;
+      currentIndex = (idx + cards.length) % cards.length;
+      centerCurrentCard(smooth);
     }
 
-    function detectCenterCard() {
-      const visible = getVisibleCards();
-      if (!visible.length) return;
-      const trackCenter = track.scrollLeft + (track.offsetWidth / 2);
+    function nextSlide() {
+      goToIndex(currentIndex + 1);
+    }
 
-      let closestCard = visible[0];
-      let minDistance = Infinity;
-
-      visible.forEach(card => {
-        const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
-        const dist = Math.abs(trackCenter - cardCenter);
-        if (dist < minDistance) {
-          minDistance = dist;
-          closestCard = card;
-        }
-      });
-
-      setCenterCard(closestCard);
-      currentIndex = visible.indexOf(closestCard);
+    function prevSlide() {
+      goToIndex(currentIndex - 1);
     }
 
     function startAutoplay() {
       stopAutoplay();
-      autoplayTimer = setInterval(() => {
-        if (!isUserInteracting && document.visibilityState === 'visible') {
-          const visible = getVisibleCards();
-          if (visible.length > 1) {
-            currentIndex = (currentIndex + 1) % visible.length;
-            scrollToCard(visible[currentIndex], true);
-          }
+      autoplayInterval = setInterval(() => {
+        if (!isUserInteracting && isVisibleInView && document.visibilityState === 'visible') {
+          nextSlide();
         }
       }, 3500);
     }
 
     function stopAutoplay() {
-      if (autoplayTimer) {
-        clearInterval(autoplayTimer);
-        autoplayTimer = null;
+      if (autoplayInterval) {
+        clearInterval(autoplayInterval);
+        autoplayInterval = null;
       }
     }
 
-    // Scroll listener on track
-    track.addEventListener('scroll', () => {
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(detectCenterCard, 50);
-    }, { passive: true });
+    function restartAutoplay() {
+      stopAutoplay();
+      startAutoplay();
+    }
 
-    // Hover & touch pause
-    track.addEventListener('mouseenter', () => { isUserInteracting = true; stopAutoplay(); });
-    track.addEventListener('mouseleave', () => { isUserInteracting = false; startAutoplay(); });
-    track.addEventListener('touchstart', () => { isUserInteracting = true; stopAutoplay(); }, { passive: true });
-    track.addEventListener('touchend', () => {
-      isUserInteracting = false;
-      setTimeout(startAutoplay, 1500);
-    }, { passive: true });
+    window.reelCarouselGoToCard = function(targetCard) {
+      const cards = getVisibleCards();
+      const idx = cards.indexOf(targetCard);
+      if (idx !== -1) {
+        goToIndex(idx);
+        restartAutoplay();
+      }
+    };
 
-    // Card click: center card if clicked
-    cards.forEach(card => {
-      card.addEventListener('click', (e) => {
-        if (!card.classList.contains('is-center')) {
-          e.stopPropagation();
-          scrollToCard(card, true);
-        }
+    window.refreshReelCarousel = function() {
+      const cards = getVisibleCards();
+      currentIndex = 0;
+      renderIndicators(cards);
+      centerCurrentCard(false);
+      restartAutoplay();
+    };
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        prevSlide();
+        restartAutoplay();
       });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        nextSlide();
+        restartAutoplay();
+      });
+    }
+
+    carousel.addEventListener('mouseenter', () => {
+      isUserInteracting = true;
+    });
+    carousel.addEventListener('mouseleave', () => {
+      isUserInteracting = false;
     });
 
-    // Prev / Next button listeners
-    if (prevBtn) {
-      prevBtn.addEventListener('click', () => {
-        stopAutoplay();
-        scrollToIndex(currentIndex - 1, true);
-        setTimeout(startAutoplay, 2000);
-      });
-    }
-    if (nextBtn) {
-      nextBtn.addEventListener('click', () => {
-        stopAutoplay();
-        scrollToIndex(currentIndex + 1, true);
-        setTimeout(startAutoplay, 2000);
-      });
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let isSwiping = false;
+
+    viewport.addEventListener('touchstart', (e) => {
+      isUserInteracting = true;
+      if (e.touches.length === 1) {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        isSwiping = true;
+      }
+    }, { passive: true });
+
+    viewport.addEventListener('touchmove', (e) => {
+      if (!isSwiping || e.touches.length !== 1) return;
+      const diffY = Math.abs(e.touches[0].clientY - touchStartY);
+      const diffX = Math.abs(e.touches[0].clientX - touchStartX);
+      if (diffY > diffX && diffY > 15) {
+        isSwiping = false;
+      }
+    }, { passive: true });
+
+    viewport.addEventListener('touchend', (e) => {
+      isUserInteracting = false;
+      if (!isSwiping) return;
+      isSwiping = false;
+      if (e.changedTouches.length === 1) {
+        const touchEndX = e.changedTouches[0].clientX;
+        const diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > 45) {
+          if (diff > 0) {
+            nextSlide();
+          } else {
+            prevSlide();
+          }
+          restartAutoplay();
+        }
+      }
+    }, { passive: true });
+
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          isVisibleInView = entry.isIntersecting;
+        });
+      }, { threshold: 0.15 });
+      io.observe(carousel);
     }
 
-    // Initial positioning
+    let resizeTimer = null;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        centerCurrentCard(false);
+      }, 80);
+    }, { passive: true });
+
+    const initialCards = getVisibleCards();
+    renderIndicators(initialCards);
     setTimeout(() => {
-      const visible = getVisibleCards();
-      if (visible.length) {
-        scrollToIndex(0, false);
-      }
+      centerCurrentCard(false);
       startAutoplay();
-    }, 350);
+    }, 120);
   }
 
   /* =========================================================
-     15. SERVICES CARDS SEQUENTIAL AUTOPLAY HIGHLIGHT
+     14. SERVICES SECTION AUTOMATIC SEQUENTIAL HIGHLIGHT
      ========================================================= */
-  function initServicesAutoplay() {
-    const serviceCards = Array.from(document.querySelectorAll('.service'));
-    if (!serviceCards.length) return;
+  function initServicesAutoHighlight() {
+    const services = Array.from(document.querySelectorAll('.services .service'));
+    if (!services.length) return;
 
-    let activeServiceIndex = 0;
-    let serviceTimer = null;
-    let isUserHovering = false;
+    let activeIndex = 0;
+    let timer = null;
+    let isPaused = false;
+    let isInView = false;
 
-    function highlightService(index) {
-      serviceCards.forEach((card, i) => {
-        if (i === index) {
-          card.classList.add('is-highlighted');
+    function highlightIndex(idx) {
+      services.forEach((card, i) => {
+        if (i === idx) {
+          card.classList.add('is-auto-highlighted');
         } else {
-          card.classList.remove('is-highlighted');
+          card.classList.remove('is-auto-highlighted');
         }
       });
     }
 
-    function startServiceCycle() {
-      stopServiceCycle();
-      serviceTimer = setInterval(() => {
-        if (!isUserHovering && document.visibilityState === 'visible') {
-          activeServiceIndex = (activeServiceIndex + 1) % serviceCards.length;
-          highlightService(activeServiceIndex);
-        }
-      }, 2800);
-    }
-
-    function stopServiceCycle() {
-      if (serviceTimer) {
-        clearInterval(serviceTimer);
-        serviceTimer = null;
+    function step() {
+      if (!isPaused && isInView && document.visibilityState === 'visible') {
+        highlightIndex(activeIndex);
+        activeIndex = (activeIndex + 1) % services.length;
       }
     }
 
-    serviceCards.forEach((card, idx) => {
+    function startCycle() {
+      if (timer) clearInterval(timer);
+      timer = setInterval(step, 2800);
+      step();
+    }
+
+    services.forEach(card => {
       card.addEventListener('mouseenter', () => {
-        isUserHovering = true;
-        activeServiceIndex = idx;
-        highlightService(idx);
-        stopServiceCycle();
+        isPaused = true;
+        services.forEach(c => c.classList.remove('is-auto-highlighted'));
       });
       card.addEventListener('mouseleave', () => {
-        isUserHovering = false;
-        startServiceCycle();
+        isPaused = false;
       });
+      card.addEventListener('touchstart', () => {
+        isPaused = true;
+        services.forEach(c => c.classList.remove('is-auto-highlighted'));
+      }, { passive: true });
+      card.addEventListener('touchend', () => {
+        isPaused = false;
+      }, { passive: true });
     });
 
-    highlightService(0);
-    startServiceCycle();
+    const section = document.querySelector('.services');
+    if (section && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          isInView = entry.isIntersecting;
+          if (isInView && !timer) {
+            startCycle();
+          }
+        });
+      }, { threshold: 0.15 });
+      io.observe(section);
+    } else {
+      isInView = true;
+      startCycle();
+    }
   }
 
   /* =========================================================
-     16. PROCESS CONSOLE CARDS SEQUENTIAL AUTOPLAY HIGHLIGHT
+     15. PROCESS SECTION AUTOMATIC PIPELINE HIGHLIGHT
      ========================================================= */
-  function initProcessAutoplay() {
-    const processCards = Array.from(document.querySelectorAll('.process__card'));
+  function initProcessAutoHighlight() {
+    const processCards = Array.from(document.querySelectorAll('.process__console .process__card, .process .process__card'));
     if (!processCards.length) return;
 
-    let activeProcessIndex = 0;
-    let processTimer = null;
-    let isUserHovering = false;
+    let activeIndex = 0;
+    let timer = null;
+    let isPaused = false;
+    let isInView = false;
 
-    function highlightProcess(index) {
+    function highlightIndex(idx) {
       processCards.forEach((card, i) => {
-        if (i === index) {
-          card.classList.add('is-highlighted');
+        if (i === idx) {
+          card.classList.add('is-auto-highlighted');
         } else {
-          card.classList.remove('is-highlighted');
+          card.classList.remove('is-auto-highlighted');
         }
       });
     }
 
-    function startProcessCycle() {
-      stopProcessCycle();
-      processTimer = setInterval(() => {
-        if (!isUserHovering && document.visibilityState === 'visible') {
-          activeProcessIndex = (activeProcessIndex + 1) % processCards.length;
-          highlightProcess(activeProcessIndex);
-        }
-      }, 2600);
-    }
-
-    function stopProcessCycle() {
-      if (processTimer) {
-        clearInterval(processTimer);
-        processTimer = null;
+    function step() {
+      if (!isPaused && isInView && document.visibilityState === 'visible') {
+        highlightIndex(activeIndex);
+        activeIndex = (activeIndex + 1) % processCards.length;
       }
     }
 
-    processCards.forEach((card, idx) => {
-      card.addEventListener('mouseenter', () => {
-        isUserHovering = true;
-        activeProcessIndex = idx;
-        highlightProcess(idx);
-        stopProcessCycle();
-      });
-      card.addEventListener('mouseleave', () => {
-        isUserHovering = false;
-        startProcessCycle();
-      });
-    });
+    function startCycle() {
+      if (timer) clearInterval(timer);
+      timer = setInterval(step, 2500);
+      step();
+    }
 
-    highlightProcess(0);
-    startProcessCycle();
+    const container = document.querySelector('.process__console') || document.querySelector('.process__grid') || document.querySelector('.process');
+    if (container) {
+      container.addEventListener('mouseenter', () => {
+        isPaused = true;
+        processCards.forEach(c => c.classList.remove('is-auto-highlighted'));
+      });
+      container.addEventListener('mouseleave', () => {
+        isPaused = false;
+      });
+      container.addEventListener('touchstart', () => {
+        isPaused = true;
+        processCards.forEach(c => c.classList.remove('is-auto-highlighted'));
+      }, { passive: true });
+      container.addEventListener('touchend', () => {
+        isPaused = false;
+      }, { passive: true });
+    }
+
+    const section = document.querySelector('.process');
+    if (section && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          isInView = entry.isIntersecting;
+          if (isInView && !timer) {
+            startCycle();
+          }
+        });
+      }, { threshold: 0.15 });
+      io.observe(section);
+    } else {
+      isInView = true;
+      startCycle();
+    }
   }
 
   if (document.readyState === 'loading') {
