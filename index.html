@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>100 International Universe — AI Film &amp; Video Production Studio</title>
+<meta name="description" content="100 International Universe is an AI-driven film and video production studio crafting cinema-grade films, advertisements and brand worlds for a global audience.">
+<link rel="icon" href="assets/logo-3d-sm.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=23.0">
+</head>
+<body>
+
+<div class="cursor-glow" id="cursorGlow"></div>
+<canvas id="bgLogoEmberCanvas" class="bg-logo-ember-canvas" aria-hidden="true"></canvas>
+
+<!-- NAVIGATION BAR (MOBILE BURGER) -->
+<header class="nav" id="siteNav">
+  <button class="nav__burger" id="navBurger" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- MOBILE SLIDE-DOWN MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#top">Home</a>
+  <a href="#telemetry">Telemetry</a>
+  <a href="#work">Work</a>
+  <a href="#studio">Studio</a>
+  <a href="#services">Services</a>
+  <a href="#process">Process</a>
+  <a href="#contact">Start a project</a>
+</div>
+
+<!-- AUTHENTIC CIRCULAR COCKPIT NAVIGATION (LEFT SIDE, 100% HEIGHT SPINE) -->
+<nav class="side-nav" id="sideNav" aria-label="Studio Navigation">
+  <!-- Deep 3D Ambient Drop Shadow Layer Projecting Onto Underlying Web Canvas -->
+  <div class="side-nav__ambient-shadow" aria-hidden="true"></div>
+
+  <!-- Full-Height Cyber Laser Spine -->
+  <div class="side-nav__spine" aria-hidden="true"></div>
+
+  <!-- Realistic Perimeter Fire Canvas (Dancing Flames, Flickering Tongues & Kinetic Sparks) -->
+  <canvas class="side-nav__fire-canvas" id="navFireCanvas" aria-hidden="true"></canvas>
+
+  <!-- Central Circular Cockpit Dock (100% Height, 190px Grand Arch) -->
+  <div class="side-nav__dock" id="sideNavDock">
+    <!-- Precision SVG Chronometer & Aerospace Bezel with 2 External Cyber Circuit Tracks -->
+    <svg class="side-nav__arc-svg" viewBox="0 0 190 1000" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="navDashedGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="rgba(255, 122, 26, 0.2)"/>
+          <stop offset="15%" stop-color="rgba(255, 122, 26, 0.7)"/>
+          <stop offset="50%" stop-color="rgba(255, 184, 92, 1)"/>
+          <stop offset="85%" stop-color="rgba(255, 122, 26, 0.7)"/>
+          <stop offset="100%" stop-color="rgba(255, 122, 26, 0.2)"/>
+        </linearGradient>
+
+        <linearGradient id="circuitGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="rgba(255, 122, 26, 0)"/>
+          <stop offset="20%" stop-color="rgba(255, 122, 26, 0.45)"/>
+          <stop offset="50%" stop-color="rgba(255, 184, 92, 0.8)"/>
+          <stop offset="80%" stop-color="rgba(255, 122, 26, 0.45)"/>
+          <stop offset="100%" stop-color="rgba(255, 122, 26, 0)"/>
+        </linearGradient>
+
+        <linearGradient id="circuitGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="rgba(255, 200, 120, 0)"/>
+          <stop offset="20%" stop-color="rgba(255, 195, 110, 0.4)"/>
+          <stop offset="50%" stop-color="rgba(255, 235, 180, 0.75)"/>
+          <stop offset="80%" stop-color="rgba(255, 195, 110, 0.4)"/>
+          <stop offset="100%" stop-color="rgba(255, 200, 120, 0)"/>
+        </linearGradient>
+
+        <linearGradient id="navDividerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="rgba(255, 140, 40, 0.04)"/>
+          <stop offset="45%" stop-color="rgba(255, 184, 92, 0.18)"/>
+          <stop offset="100%" stop-color="rgba(255, 140, 40, 0.32)"/>
+        </linearGradient>
+        <linearGradient id="lightningArcGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="rgba(255, 160, 40, 0)"/>
+          <stop offset="10%" stop-color="rgba(255, 200, 80, 0.85)"/>
+          <stop offset="50%" stop-color="rgba(255, 255, 255, 1)"/>
+          <stop offset="90%" stop-color="rgba(255, 200, 80, 0.85)"/>
+          <stop offset="100%" stop-color="rgba(255, 160, 40, 0)"/>
+        </linearGradient>
+        <filter id="fireRimBlur" x="-30%" y="-10%" width="160%" height="120%">
+          <feGaussianBlur stdDeviation="8" result="blur"/>
+        </filter>
+      </defs>
+
+      <!-- Full Nav Bar Circle Lightning Arc (Completes Entire Circle from Top to Bottom) -->
+      <path class="side-nav__lightning-arc" d="M 0,0 A 190 500 0 0 1 0,1000" />
+      <path class="side-nav__circuit-track1" d="M 0,15 A 185 485 0 0 1 0,985" stroke="url(#circuitGrad1)" stroke-width="1.2" stroke-dasharray="4 16" />
+      <path class="side-nav__circuit-track2" d="M 0,35 A 176 465 0 0 1 0,965" stroke="url(#circuitGrad2)" stroke-width="1.0" stroke-dasharray="8 22" />
+
+      <!-- 8 Radial Sector Partition Lines Radiating from Middle of Original Circle (0, 500) Delimiting 7 Buttons -->
+      <g class="side-nav__dividers" aria-hidden="true">
+        <!-- Sector Divider 1: Top Boundary of Home -->
+        <line x1="0" y1="500" x2="73" y2="38" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
+        <circle cx="73" cy="38" r="1.8" fill="#ffb85c" opacity="0.45" />
+
+        <!-- Sector Divider 2: Midpoint Between Home and Telemetry -->
+        <line x1="0" y1="500" x2="144" y2="175" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
+        <circle cx="144" cy="175" r="1.8" fill="#ffb85c" opacity="0.45" />
+        
+        <!-- Sector Divider 3: Midpoint Between Telemetry and Work -->
+        <line x1="0" y1="500" x2="176" y2="311" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
+        <circle cx="176" cy="311" r="1.8" fill="#ffb85c" opacity="0.45" />
+        
+        <!-- Sector Divider 4: Midpoint Between Work and Studio -->
+        <line x1="0" y1="500" x2="189" y2="443" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
+        <circle cx="189" cy="443" r="1.8" fill="#ffb85c" opacity="0.45" />
+        
+        <!-- Sector Divider 5: Midpoint Between Studio and Services -->
+        <line x1="0" y1="500" x2="188" y2="575" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
+        <circle cx="188" cy="575" r="1.8" fill="#ffb85c" opacity="0.45" />
+        
+        <!-- Sector Divider 6: Midpoint Between Services and Process -->
+        <line x1="0" y1="500" x2="173" y2="707" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
+        <circle cx="173" cy="707" r="1.8" fill="#ffb85c" opacity="0.45" />
+        
+        <!-- Sector Divider 7: Midpoint Between Process and Contact -->
+        <line x1="0" y1="500" x2="140" y2="838" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
+        <circle cx="140" cy="838" r="1.8" fill="#ffb85c" opacity="0.45" />
+
+        <!-- Sector Divider 8: Bottom Boundary of Contact -->
+        <line x1="0" y1="500" x2="73" y2="962" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
+        <circle cx="73" cy="962" r="1.8" fill="#ffb85c" opacity="0.45" />
+      </g>
+    </svg>
+
+    <!-- Modern 3D Holographic Resonator Stage (Kinetic Ambient Depth Waves) -->
+    <div class="side-nav__holo-stage" aria-hidden="true">
+      <div class="side-nav__holo-ambient"></div>
+    </div>
+
+    <!-- Center Hub with 3D "100" Logo Stage -->
+    <div class="side-nav__core" aria-label="100 International Core">
+      <!-- Auto-Animating 3D "100" Logo Stage -->
+      <div class="side-nav__core-logo-stage" aria-hidden="true">
+        <img src="assets/logo-3d-sm.png" alt="100 3D Logo" class="side-nav__core-logo-img">
+        <div class="side-nav__core-brand">
+          <span class="side-nav__core-word">INTERNATIONAL</span>
+          <span class="side-nav__core-word">UNIVERSE</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7 Curved Navigation Nodes mapped along the 100% height circular arc -->
+    <div class="side-nav__items">
+      <!-- 01: Home -->
+      <a href="#top" class="side-nav__link side-nav__link--1 is-active" data-section="top" title="Home">
+        <div class="side-nav__btn">
+          <span class="side-nav__pulse" aria-hidden="true"></span>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1V9.5z"/></svg>
+        </div>
+        <div class="side-nav__meta">
+          <span class="side-nav__label">Home</span>
+        </div>
+      </a>
+
+      <!-- 02: Telemetry -->
+      <a href="#telemetry" class="side-nav__link side-nav__link--2" data-section="telemetry" title="Studio Telemetry">
+        <div class="side-nav__btn">
+          <span class="side-nav__pulse" aria-hidden="true"></span>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <div class="side-nav__meta">
+          <span class="side-nav__label">Telemetry</span>
+        </div>
+      </a>
+
+      <!-- 03: Work -->
+      <a href="#work" class="side-nav__link side-nav__link--3" data-section="work" title="Selected Showcase">
+        <div class="side-nav__btn">
+          <span class="side-nav__pulse" aria-hidden="true"></span>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+        </div>
+        <div class="side-nav__meta">
+          <span class="side-nav__label">Work</span>
+        </div>
+      </a>
+
+      <!-- 04: Studio -->
+      <a href="#studio" class="side-nav__link side-nav__link--4" data-section="studio" title="Studio &amp; Philosophy">
+        <div class="side-nav__btn">
+          <span class="side-nav__pulse" aria-hidden="true"></span>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+        </div>
+        <div class="side-nav__meta">
+          <span class="side-nav__label">Studio</span>
+        </div>
+      </a>
+
+      <!-- 05: Services -->
+      <a href="#services" class="side-nav__link side-nav__link--5" data-section="services" title="Services &amp; Capabilities">
+        <div class="side-nav__btn">
+          <span class="side-nav__pulse" aria-hidden="true"></span>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <div class="side-nav__meta">
+          <span class="side-nav__label">Services</span>
+        </div>
+      </a>
+
+      <!-- 06: Process -->
+      <a href="#process" class="side-nav__link side-nav__link--6" data-section="process" title="Production Pipeline">
+        <div class="side-nav__btn">
+          <span class="side-nav__pulse" aria-hidden="true"></span>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
+        </div>
+        <div class="side-nav__meta">
+          <span class="side-nav__label">Process</span>
+        </div>
+      </a>
+
+      <!-- 07: Contact -->
+      <a href="#contact" class="side-nav__link side-nav__link--7" data-section="contact" title="Start a Project">
+        <div class="side-nav__btn">
+          <span class="side-nav__pulse" aria-hidden="true"></span>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </div>
+        <div class="side-nav__meta">
+          <span class="side-nav__label">Contact</span>
+        </div>
+      </a>
+    </div>
+
+    <!-- Bottom Status Node -->
+    <div class="side-nav__bottom">
+      <div class="side-nav__live-badge" title="Proprietary Generative AI 2.4 Active">
+        <span class="side-nav__live-dot"></span>
+        <span class="side-nav__live-txt">AI LIVE</span>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO SECTION WITH FULL-FRAME 3D ROTATING LOGO VIDEO BACKGROUND -->
+<section class="hero" id="top">
+  <!-- Full-Frame Video Layer spanning 100% of the Hero Viewport -->
+  <div class="hero__video-bg">
+    <video class="hero__video-media" id="heroBgVideo" autoplay loop muted playsinline preload="auto">
+      <source src="assets/logo-video.mp4" type="video/mp4">
+    </video>
+    <!-- Cinematic Full-Frame Ambient Vignette -->
+    <div class="hero__video-overlay"></div>
+    <!-- Dedicated Bottom-Right Cover for Gemini Watermark -->
+    <div class="hero__watermark-cover"></div>
+  </div>
+
+  <div class="hero__content">
+    <div class="hero__badge">
+      <span class="hero__badge-dot"></span>
+      <span>AI Film &amp; Video Production Studio &mdash; Active Briefs Open</span>
+    </div>
+
+    <div class="hero__logo-spacer" aria-hidden="true"></div>
+    <h2 class="hero__title">
+      <br><br><br><br>
+      <span class="hero__title-top">A HUNDRED IDEAS.</span>
+    </h2>
+    <h3 class="hero__title3">
+      <span class="hero__title-accent">AN INFINITE UNIVERSE OF FILM.</span>
+    </h3>
+
+    <p class="hero__sub">Generative AI core ekath ekka, cinema-grade films & ads record speed eken deliver karanawa.</p>
+
+    <div class="hero__actions">
+      <a href="#work" class="btn btn--primary">Explore the work</a>
+      <a href="#contact" class="btn btn--ghost">Start a project</a>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE TICKER -->
+<div class="marquee">
+  <div class="marquee__track">
+    <span>Films</span><span>·</span><span>Advertisements</span><span>·</span>
+    <span>Music Videos</span><span>·</span><span>Brand Worlds</span><span>·</span>
+    <span>Virtual Production</span><span>·</span><span>Motion Design</span><span>·</span>
+    <span>Generative AI Pipelines</span><span>·</span>
+    <span>Films</span><span>·</span><span>Advertisements</span><span>·</span>
+    <span>Music Videos</span><span>·</span><span>Brand Worlds</span><span>·</span>
+    <span>Virtual Production</span><span>·</span><span>Motion Design</span><span>·</span>
+    <span>Generative AI Pipelines</span><span>·</span>
+  </div>
+</div>
+
+<!-- EXECUTIVE STUDIO PRODUCTION ANALYTICS & TELEMETRY SECTION -->
+<section class="telemetry-section" id="telemetry">
+  <div class="section-head section-head--split">
+    <div>
+      <div class="eyebrow eyebrow--studio">
+        <span class="eyebrow__dot"></span>
+        <span>Studio Intelligence &bull; Live Telemetry</span>
+      </div>
+      <h2>Executive Production<br>Audit &amp; Intelligence.</h2>
+    </div>
+    <p class="section-head__note">Real-time studio velocity metrics, global distribution reach, and client sign-off audit powered by 100 International's proprietary Generative AI pipeline 2.4.</p>
+  </div>
+
+  <div class="telemetry-container">
+    <!-- Console Container -->
+    <div class="hero__analytics-console telemetry__console">
+      <!-- Console Header Bar -->
+      <div class="hero__analytics-header">
+        <div class="hero__analytics-status">
+          <span class="hero__analytics-pulse"></span>
+          <span class="hero__analytics-tag">PRODUCTION AUDIT &bull; LIVE TELEMETRY</span>
+        </div>
+        <div class="hero__analytics-meta">
+          <span class="hero__analytics-badge">⚡ 4.8X VELOCITY MULTIPLIER</span>
+          <span class="hero__analytics-subtag">GEN-AI PIPELINE 2.4</span>
+        </div>
+      </div>
+
+      <!-- Analytics Metrics Grid -->
+      <div class="hero__analytics-grid">
+        <!-- Analysis Column 1: Velocity -->
+        <div class="hero__analytics-card">
+          <div class="hero__analytics-top">
+            <span class="hero__analytics-lbl">Turnaround Velocity</span>
+            <span class="hero__analytics-trend hero__analytics-trend--up">▲ 81% FAST</span>
+          </div>
+          <div class="hero__analytics-val-wrap">
+            <span class="hero__analytics-num" data-count="11">11</span>
+            <span class="hero__analytics-unit">Days</span>
+          </div>
+          <p class="hero__analytics-desc">Brief to 4K Master Delivery</p>
+          
+          <!-- Mini Sparkline Graph -->
+          <div class="hero__analytics-graph" aria-hidden="true">
+            <svg viewBox="0 0 200 28" class="hero__analytics-svg">
+              <defs>
+                <linearGradient id="sparkGrad1" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#ff7a1a" stop-opacity="0.35"/>
+                  <stop offset="100%" stop-color="#ff7a1a" stop-opacity="0.0"/>
+                </linearGradient>
+              </defs>
+              <path d="M0,24 Q50,22 95,14 T165,6 T200,4 L200,28 L0,28 Z" fill="url(#sparkGrad1)"/>
+              <path d="M0,24 Q50,22 95,14 T165,6 T200,4" fill="none" stroke="#ff7a1a" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="200" cy="4" r="3.5" fill="#ffb85c" />
+            </svg>
+            <span class="hero__analytics-note">Cycle Time (vs 60d Trad.)</span>
+          </div>
+        </div>
+
+        <div class="hero__analytics-divider" aria-hidden="true"></div>
+
+        <!-- Analysis Column 2: Global Release -->
+        <div class="hero__analytics-card">
+          <div class="hero__analytics-top">
+            <span class="hero__analytics-lbl">Global Distribution</span>
+            <span class="hero__analytics-trend hero__analytics-trend--live">● WORLDWIDE</span>
+          </div>
+          <div class="hero__analytics-val-wrap">
+            <span class="hero__analytics-num" data-count="46">46</span>
+            <span class="hero__analytics-unit">Countries</span>
+          </div>
+          <p class="hero__analytics-desc">Broadcast Across Global Markets</p>
+
+          <!-- Multi-Segment Distribution Bar -->
+          <div class="hero__analytics-graph" aria-hidden="true">
+            <div class="hero__analytics-bar-wrap">
+              <div class="hero__analytics-bar hero__analytics-bar--p1" style="width: 52%;" title="Cinema & OTT"></div>
+              <div class="hero__analytics-bar hero__analytics-bar--p2" style="width: 32%;" title="Commercial Broadcast"></div>
+              <div class="hero__analytics-bar hero__analytics-bar--p3" style="width: 16%;" title="Social 9:16"></div>
+            </div>
+            <div class="hero__analytics-legend">
+              <span>Cinema &bull; 52%</span>
+              <span>Broadcast &bull; 32%</span>
+              <span>Social &bull; 16%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero__analytics-divider" aria-hidden="true"></div>
+
+        <!-- Analysis Column 3: Output Volume -->
+        <div class="hero__analytics-card">
+          <div class="hero__analytics-top">
+            <span class="hero__analytics-lbl">Production Volume</span>
+            <span class="hero__analytics-trend hero__analytics-trend--star">★ 99.8% SIGN-OFF</span>
+          </div>
+          <div class="hero__analytics-val-wrap">
+            <span class="hero__analytics-num" data-count="100">100</span>
+            <span class="hero__analytics-unit">+ Cuts</span>
+          </div>
+          <p class="hero__analytics-desc">Commercial &amp; Narrative Films</p>
+
+          <!-- Meter Progress -->
+          <div class="hero__analytics-graph" aria-hidden="true">
+            <div class="hero__analytics-meter">
+              <div class="hero__analytics-meter-fill" style="width: 99.8%;"></div>
+            </div>
+            <span class="hero__analytics-note">Client Acceptance Rate</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Telemetry Footer Strip -->
+      <div class="hero__analytics-footer">
+        <div class="hero__analytics-fitem">
+          <span class="hero__analytics-fdot"></span>
+          <span>Latency: <strong>&lt; 48h</strong> First Cut</span>
+        </div>
+        <div class="hero__analytics-fitem">
+          <span class="hero__analytics-fdot"></span>
+          <span>Pipeline: <strong>Human-Directed</strong> Neural VFX</span>
+        </div>
+        <div class="hero__analytics-fitem">
+          <span class="hero__analytics-fdot"></span>
+          <span>Format: <strong>4K HDR</strong> Cinema Native</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SHOWREEL & SELECTED WORK SECTION -->
+<section class="work-section" id="work">
+  <div class="section-head section-head--split">
+    <div>
+      <div class="eyebrow eyebrow--studio">
+        <span class="eyebrow__dot"></span>
+        <span>Selected Showcase &bull; Studio Archive</span>
+      </div>
+      <h2>Recent frames from<br>the universe.</h2>
+    </div>
+    <p class="section-head__note">A curated archive of narrative shorts, global brand spots and music videos engineered through human-directed generative AI pipelines. Click any frame to launch the 4K Cinema Showcase.</p>
+  </div>
+
+  <!-- Interactive Category Filter Tabs -->
+  <div class="reel__filter-bar">
+    <div class="reel__filter-header">
+      <span class="reel__filter-lbl"><i class="reel__filter-dot"></i>Production Archive</span>
+      <span class="reel__filter-count">05 Master Cuts</span>
+    </div>
+    <div class="reel__filters" role="tablist">
+      <button type="button" class="reel__filter-btn is-active" data-filter="all">
+        <span class="reel__filter-name">All Productions</span>
+        <span class="reel__filter-num">05</span>
+      </button>
+      <button type="button" class="reel__filter-btn" data-filter="short">
+        <span class="reel__filter-name">Short Films</span>
+        <span class="reel__filter-num">02</span>
+      </button>
+      <button type="button" class="reel__filter-btn" data-filter="commercial">
+        <span class="reel__filter-name">Commercials</span>
+        <span class="reel__filter-num">01</span>
+      </button>
+      <button type="button" class="reel__filter-btn" data-filter="music">
+        <span class="reel__filter-name">Music Videos</span>
+        <span class="reel__filter-num">01</span>
+      </button>
+      <button type="button" class="reel__filter-btn" data-filter="brand">
+        <span class="reel__filter-name">Brand &amp; VFX</span>
+        <span class="reel__filter-num">01</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="reel">
+    <!-- Shot 1: Ashen Horizon -->
+    <article class="reel__card"
+             data-category-tag="short sci-fi"
+             data-title="Ashen Horizon"
+             data-category="Short Film · 4 min"
+             data-img="assets/c_shot1.jpg"
+             data-video="assets/logo-video.mp4"
+             data-preview-start="0"
+             data-desc="Deep space tactical bridge under command. Human directors guiding real-time generative camera movements, volumetric particle fields, and holographic interface choreography."
+             data-project="Short film">
+      <div class="reel__frame">
+        <div class="reel__thumb">
+          <img src="assets/c_shot1.jpg" alt="Ashen Horizon — Sci-Fi Short Film" class="reel__img" loading="lazy">
+          <video class="reel__card-video" muted playsinline loop preload="metadata">
+            <source src="assets/logo-video.mp4" type="video/mp4">
+          </video>
+          <div class="reel__badges">
+            <span class="reel__badge reel__badge--live"><i class="reel__badge-pulse"></i>4K CINEMA · 4 MIN</span>
+            <span class="reel__badge reel__badge--code">PRD // 01</span>
+          </div>
+          <div class="reel__play-wrap">
+            <span class="reel__play" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </span>
+            <span class="reel__play-cue">Watch Reel</span>
+          </div>
+        </div>
+      </div>
+      <div class="reel__meta">
+        <div class="reel__meta-main">
+          <h3 class="reel__title">Ashen Horizon</h3>
+          <p class="reel__logline">Deep Space Tactical Command &bull; Volumetric VFX &amp; Particle Holography</p>
+        </div>
+        <div class="reel__meta-side">
+          <span class="reel__type-pill">Narrative Short</span>
+          <span class="reel__arrow" aria-hidden="true">↗</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Shot 2: Nimbus -->
+    <article class="reel__card"
+             data-category-tag="commercial automotive"
+             data-title="Nimbus — Launch Film"
+             data-category="Advertisement · 60s"
+             data-img="assets/c_shot2.jpg"
+             data-video="assets/logo-video.mp4"
+             data-preview-start="2.5"
+             data-desc="High-octane neon night street pursuit. Cinematic crane choreography and photorealistic wet-road reflections generated and tuned for multi-aspect global broadcast."
+             data-project="Advertisement">
+      <div class="reel__frame">
+        <div class="reel__thumb">
+          <img src="assets/c_shot2.jpg" alt="Nimbus Launch Film — Cyberpunk Commercial" class="reel__img" loading="lazy">
+          <video class="reel__card-video" muted playsinline loop preload="metadata">
+            <source src="assets/logo-video.mp4" type="video/mp4">
+          </video>
+          <div class="reel__badges">
+            <span class="reel__badge reel__badge--live"><i class="reel__badge-pulse"></i>COMMERCIAL · 60S</span>
+            <span class="reel__badge reel__badge--code">PRD // 02</span>
+          </div>
+          <div class="reel__play-wrap">
+            <span class="reel__play" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </span>
+            <span class="reel__play-cue">Watch Reel</span>
+          </div>
+        </div>
+      </div>
+      <div class="reel__meta">
+        <div class="reel__meta-main">
+          <h3 class="reel__title">Nimbus &mdash; Launch Film</h3>
+          <p class="reel__logline">Cyberpunk Automotive Spot &bull; Multi-Aspect Global Broadcast</p>
+        </div>
+        <div class="reel__meta-side">
+          <span class="reel__type-pill">Commercial</span>
+          <span class="reel__arrow" aria-hidden="true">↗</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Shot 3: Paper Static -->
+    <article class="reel__card"
+             data-category-tag="music worldbuilding"
+             data-title="Paper Static"
+             data-category="Music Video · 3 min"
+             data-img="assets/c_shot3.jpg"
+             data-video="assets/logo-video.mp4"
+             data-preview-start="5.0"
+             data-desc="Futuristic orbital shipyard and heavy transport assembly. Worldbuilding for artists with recurring mechanical motifs and scale impossible on practical sets."
+             data-project="Music video">
+      <div class="reel__frame">
+        <div class="reel__thumb">
+          <img src="assets/c_shot3.jpg" alt="Paper Static — Music Video" class="reel__img" loading="lazy">
+          <video class="reel__card-video" muted playsinline loop preload="metadata">
+            <source src="assets/logo-video.mp4" type="video/mp4">
+          </video>
+          <div class="reel__badges">
+            <span class="reel__badge reel__badge--live"><i class="reel__badge-pulse"></i>MUSIC VIDEO · 3 MIN</span>
+            <span class="reel__badge reel__badge--code">PRD // 03</span>
+          </div>
+          <div class="reel__play-wrap">
+            <span class="reel__play" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </span>
+            <span class="reel__play-cue">Watch Reel</span>
+          </div>
+        </div>
+      </div>
+      <div class="reel__meta">
+        <div class="reel__meta-main">
+          <h3 class="reel__title">Paper Static</h3>
+          <p class="reel__logline">Orbital Shipyard &bull; Impossible Scale &amp; Artist Worldbuilding</p>
+        </div>
+        <div class="reel__meta-side">
+          <span class="reel__type-pill">Music Video</span>
+          <span class="reel__arrow" aria-hidden="true">↗</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Shot 4: Second Sun -->
+    <article class="reel__card"
+             data-category-tag="brand vfx"
+             data-title="Second Sun"
+             data-category="Brand Anthem · 90s"
+             data-img="assets/c_shot4.jpg"
+             data-video="assets/logo-video.mp4"
+             data-preview-start="7.5"
+             data-desc="Neural bio-computation floating across deep cosmos. Synthetic life and artificial consciousness visualised for an ambitious deep-tech brand identity."
+             data-project="Brand content">
+      <div class="reel__frame">
+        <div class="reel__thumb">
+          <img src="assets/c_shot4.jpg" alt="Second Sun — Brand Anthem" class="reel__img" loading="lazy">
+          <video class="reel__card-video" muted playsinline loop preload="metadata">
+            <source src="assets/logo-video.mp4" type="video/mp4">
+          </video>
+          <div class="reel__badges">
+            <span class="reel__badge reel__badge--live"><i class="reel__badge-pulse"></i>BRAND ANTHEM · 90S</span>
+            <span class="reel__badge reel__badge--code">PRD // 04</span>
+          </div>
+          <div class="reel__play-wrap">
+            <span class="reel__play" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </span>
+            <span class="reel__play-cue">Watch Reel</span>
+          </div>
+        </div>
+      </div>
+      <div class="reel__meta">
+        <div class="reel__meta-main">
+          <h3 class="reel__title">Second Sun</h3>
+          <p class="reel__logline">Neural Bio-Computation &bull; Deep-Tech Brand Identity Film</p>
+        </div>
+        <div class="reel__meta-side">
+          <span class="reel__type-pill">Brand Anthem</span>
+          <span class="reel__arrow" aria-hidden="true">↗</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Shot 5: Glasswing -->
+    <article class="reel__card"
+             data-category-tag="short episodic"
+             data-title="Glasswing"
+             data-category="Episodic Pilot · 9 min"
+             data-img="assets/c_shot5.jpg"
+             data-video="assets/logo-video.mp4"
+             data-preview-start="10.0"
+             data-desc="Monumental alien temple and ancient canyon civilization. Intricate stone glyphs, kinetic embers, and sweeping scale rendered in unified atmospheric lighting."
+             data-project="Short film">
+      <div class="reel__frame">
+        <div class="reel__thumb">
+          <img src="assets/c_shot5.jpg" alt="Glasswing — Episodic Pilot" class="reel__img" loading="lazy">
+          <video class="reel__card-video" muted playsinline loop preload="metadata">
+            <source src="assets/logo-video.mp4" type="video/mp4">
+          </video>
+          <div class="reel__badges">
+            <span class="reel__badge reel__badge--live"><i class="reel__badge-pulse"></i>EPISODIC PILOT · 9 MIN</span>
+            <span class="reel__badge reel__badge--code">PRD // 05</span>
+          </div>
+          <div class="reel__play-wrap">
+            <span class="reel__play" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </span>
+            <span class="reel__play-cue">Watch Reel</span>
+          </div>
+        </div>
+      </div>
+      <div class="reel__meta">
+        <div class="reel__meta-main">
+          <h3 class="reel__title">Glasswing</h3>
+          <p class="reel__logline">Monumental Alien Temple &bull; Ancient Glyphs &amp; Volumetric Lighting</p>
+        </div>
+        <div class="reel__meta-side">
+          <span class="reel__type-pill">Episodic Pilot</span>
+          <span class="reel__arrow" aria-hidden="true">↗</span>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- STUDIO & PHILOSOPHY SECTION -->
+<section class="studio" id="studio">
+  <div class="studio__grid">
+    <div class="studio__label">
+      <p class="eyebrow">The Studio</p>
+      <h2>A production house<br>that never runs out<br>of takes.</h2>
+    </div>
+    <div class="studio__copy">
+      <p>100 International Universe is a film and advertising studio built around generative AI pipelines and a dedicated team of directors, editors and sound designers who steer them. No sets to strike, no weather to wait out &mdash; just faster iteration toward the shot that works.</p>
+      <p>The studio was founded on a simple bet: that the bottleneck in film production has always been logistics, not imagination. Remove the logistics, and a small, obsessive team can output at a scale that used to need a backlot.</p>
+
+      <div class="studio__stats">
+        <div class="stat">
+          <span class="stat__num" data-count="11">0</span>
+          <span class="stat__label">days, average brief-to-delivery</span>
+        </div>
+        <div class="stat">
+          <span class="stat__num" data-count="46">0</span>
+          <span class="stat__label">countries our work has shipped to</span>
+        </div>
+        <div class="stat">
+          <span class="stat__num" data-count="100" data-suffix="+">0</span>
+          <span class="stat__label">productions completed to date</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Studio Principles Cards -->
+  <div class="studio__principles">
+    <div class="principle-card">
+      <div class="principle-card__hud" aria-hidden="true">
+        <span class="hud-tl"></span><span class="hud-tr"></span>
+        <span class="hud-bl"></span><span class="hud-br"></span>
+      </div>
+      <span class="principle-card__num">01 / HUMAN DIRECTION</span>
+      <h3>A human approves every frame</h3>
+      <p>Generation is fast, but nothing leaves the studio without a director, editor or colourist signing off on it first.</p>
+    </div>
+    <div class="principle-card">
+      <div class="principle-card__hud" aria-hidden="true">
+        <span class="hud-tl"></span><span class="hud-tr"></span>
+        <span class="hud-bl"></span><span class="hud-br"></span>
+      </div>
+      <span class="principle-card__num">02 / UNCOMPROMISED QUALITY</span>
+      <h3>Craft over speed, when they conflict</h3>
+      <p>Turnaround is a feature, not the point &mdash; a slower right answer beats a fast wrong one every single time.</p>
+    </div>
+    <div class="principle-card">
+      <div class="principle-card__hud" aria-hidden="true">
+        <span class="hud-tl"></span><span class="hud-tr"></span>
+        <span class="hud-bl"></span><span class="hud-br"></span>
+      </div>
+      <span class="principle-card__num">03 / GLOBAL LOCALISATION</span>
+      <h3>Built for the market it's shown in</h3>
+      <p>Language, pacing and cultural reference points are treated as part of the core brief, not an afterthought in post.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES & FORMATS SECTION -->
+<section class="services" id="services">
+  <div class="section-head section-head--split">
+    <div>
+      <p class="eyebrow">Capabilities &amp; Formats</p>
+      <h2>One studio, every<br>format of film.</h2>
+    </div>
+    <p class="section-head__note">From single-shot advertisements to episodic narrative work &mdash; one pipeline, one team, built to move between formats without missing a beat.</p>
+  </div>
+
+  <div class="services__list">
+    <article class="service">
+      <div class="service__index">01</div>
+      <div class="service__body">
+        <h3>AI Short Films &amp; Episodic Series</h3>
+        <p>Original narrative work &mdash; written, storyboarded and rendered in-house, from single festival shorts to episodic concepts built for streaming platforms.</p>
+      </div>
+      <div class="service__tags">
+        <span>Narrative</span><span>Concept Art</span><span>Voice &amp; Score</span><span>4K HDR</span>
+      </div>
+    </article>
+
+    <article class="service">
+      <div class="service__index">02</div>
+      <div class="service__body">
+        <h3>Advertisements &amp; Brand Films</h3>
+        <p>Product films, launch spots and brand anthems, tuned to a client's identity and re-cut for every market and aspect ratio without a second shoot.</p>
+      </div>
+      <div class="service__tags">
+        <span>Product Spots</span><span>Localisation</span><span>Multi-Format Cuts</span><span>Social 9:16</span>
+      </div>
+    </article>
+
+    <article class="service">
+      <div class="service__index">03</div>
+      <div class="service__body">
+        <h3>Music Videos &amp; Visual Albums</h3>
+        <p>Worldbuilding for artists &mdash; recurring characters, consistent visual language and impossible sets, made possible frame by frame.</p>
+      </div>
+      <div class="service__tags">
+        <span>Performance</span><span>World-Building</span><span>Choreography</span><span>Visual Albums</span>
+      </div>
+    </article>
+
+    <article class="service">
+      <div class="service__index">04</div>
+      <div class="service__body">
+        <h3>VFX, Motion &amp; Virtual Production</h3>
+        <p>Plate extensions, digital doubles, environment generation and full virtual sets layered into live-action or entirely synthetic footage.</p>
+      </div>
+      <div class="service__tags">
+        <span>Compositing</span><span>Environments</span><span>Real-Time Render</span><span>Digital Doubles</span>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- PRODUCTION PROCESS SECTION -->
+<section class="process" id="process">
+  <div class="section-head section-head--split">
+    <div>
+      <p class="eyebrow">The Pipeline</p>
+      <h2>From brief to<br>final master.</h2>
+    </div>
+    <p class="section-head__note">Five stages take a project from a one-page idea to a mastered, market-ready film in days, not months.</p>
+  </div>
+
+  <ol class="process__list">
+    <li class="process__step">
+      <span class="process__num">01</span>
+      <div>
+        <h3>Concept &amp; script</h3>
+        <p>Directors and writers turn a brief into a cinematic script, shot list, lighting palette and visual reference board.</p>
+      </div>
+    </li>
+    <li class="process__step">
+      <span class="process__num">02</span>
+      <div>
+        <h3>AI multi-take generation</h3>
+        <p>Custom trained pipelines generate character performance, complex camera passes, and environments across hundreds of takes in parallel.</p>
+      </div>
+    </li>
+    <li class="process__step">
+      <span class="process__num">03</span>
+      <div>
+        <h3>Human direction &amp; assembly</h3>
+        <p>Senior editors and colourists select, assemble, and grade &mdash; every single frame approved by a human creative director.</p>
+      </div>
+    </li>
+    <li class="process__step">
+      <span class="process__num">04</span>
+      <div>
+        <h3>Sound, score &amp; Foley</h3>
+        <p>Original score, sound design, dialogue enhancement and Dolby/5.1 mix layered against picture lock for cinema impact.</p>
+      </div>
+    </li>
+    <li class="process__step">
+      <span class="process__num">05</span>
+      <div>
+        <h3>Mastering &amp; global delivery</h3>
+        <p>Mastered for broadcast, social and cinema &mdash; in every aspect ratio, color space (DCI-P3/Rec.709) and regional language needed.</p>
+      </div>
+    </li>
+  </ol>
+</section>
+
+<!-- CTA INTERLUDE -->
+<section class="cta-band">
+  <div class="cta-band__grid" aria-hidden="true"></div>
+  <p class="eyebrow">Ready when you are</p>
+  <h2>Bring us a brief,<br>we'll bring the rest.</h2>
+  <p>Share an idea, a deadline and an estimated scope &mdash; a producer replies within one working day.</p>
+  <a href="#contact" class="btn btn--primary">Commission a project</a>
+</section>
+
+<!-- PROJECT BRIEF / CONTACT SECTION -->
+<section class="contact" id="contact">
+  <div class="contact__inner">
+    <div class="contact__intro">
+      <p class="eyebrow">Direct Line</p>
+      <h2>Tell us what<br>you're building.</h2>
+      <p class="contact__sub">Whether you need an impossible 60-second commercial or an episodic sci-fi pilot, our producers will review your brief and reply with a treatment and turnaround schedule.</p>
+
+      <div class="contact__card-info">
+        <span class="contact__card-title">Studio Direct Inbox</span>
+        <a class="contact__email" href="mailto:studio@100iuniverse.com">studio@100iuniverse.com</a>
+        <p class="contact__meta-note">Average producer response: within 24 hours. Confidential NDA signed on request.</p>
+      </div>
+    </div>
+
+    <!-- Brief Submission Form -->
+    <form class="contact__form" id="contactForm" novalidate>
+      <div class="field-row">
+        <div class="field">
+          <label for="name">Your Name</label>
+          <input type="text" id="name" name="name" placeholder="Director / Brand Lead" required>
+        </div>
+        <div class="field">
+          <label for="email">Work Email</label>
+          <input type="email" id="email" name="email" placeholder="name@company.com" required>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="project_type">Project Type</label>
+          <select id="project_type" name="project_type">
+            <option value="Short film">AI Short Film / Narrative</option>
+            <option value="Advertisement">Advertisement / Brand Spot</option>
+            <option value="Music video">Music Video / Visual Album</option>
+            <option value="Brand content">Brand World &amp; Identity</option>
+            <option value="VFX & Virtual Production">VFX &amp; Virtual Production</option>
+            <option value="Something else">Custom Collaboration</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="timeline">Target Timeline</label>
+          <select id="timeline" name="timeline">
+            <option value="Standard (2-3 weeks)">Standard (2–3 weeks)</option>
+            <option value="Express (Under 10 days)">Express (Under 10 days)</option>
+            <option value="Quarterly / Long-term">Quarterly / Long-term</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="message">Project Brief &amp; Vision</label>
+        <textarea id="message" name="message" rows="4" placeholder="Tell us about the narrative, visual tone, deliverables, or reference aesthetics..." required></textarea>
+      </div>
+
+      <button type="submit" class="btn btn--primary btn--full" id="contactSubmit">Transmitting brief &rarr;</button>
+      <p class="contact__status" id="contactStatus" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer" id="siteFooter">
+  <div class="footer__grid">
+    <div class="footer__col footer__col--brand">
+      <a href="#top" class="footer__brand-link" aria-label="100 International Universe - Home">
+        <img src="assets/logo-flat.png" alt="100 International Universe Logo" class="footer__brand-logo" width="68" height="30">
+        <span class="footer__name">100 International Universe</span>
+      </a>
+      <p class="footer__tag">Private Limited &mdash; AI Film &amp; Video Production Studio</p>
+      <p class="footer__tag" style="color:var(--text-faint); margin-top:6px;">Accelerating cinema craft through generative technology.</p>
+    </div>
+    <div class="footer__col">
+      <span class="footer__heading">Navigation</span>
+      <a href="#top">Home</a>
+      <a href="#work">Selected Work</a>
+      <a href="#studio">The Studio</a>
+      <a href="#services">Capabilities</a>
+      <a href="#process">Pipeline</a>
+      <a href="#contact">Start a Project</a>
+    </div>
+    <div class="footer__col">
+      <span class="footer__heading">Connect</span>
+      <a href="mailto:studio@100iuniverse.com">studio@100iuniverse.com</a>
+      <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://youtube.com" target="_blank" rel="noopener">YouTube</a>
+      <a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+
+  <div class="footer__bottom">
+    <span>&copy; <span id="year"></span> 100 International Universe Pvt Ltd. All rights reserved.</span>
+    <span>Designed for Cinema &amp; Global Broadcast.</span>
+  </div>
+</footer>
+
+<!-- CINEMA SHOWCASE LIGHTBOX MODAL -->
+<div class="cinema-modal" id="cinemaModal" aria-hidden="true" role="dialog" aria-labelledby="modalTitle">
+  <div class="cinema-modal__dialog">
+    <button class="cinema-modal__close" id="modalClose" aria-label="Close modal">&times;</button>
+    <div class="cinema-modal__screen">
+      <img id="modalImg" src="assets/c_shot1.jpg" alt="Production frame preview">
+    </div>
+    <div class="cinema-modal__info">
+      <div class="cinema-modal__header">
+        <h2 class="cinema-modal__title" id="modalTitle">Project Title</h2>
+        <span class="cinema-modal__badge" id="modalBadge">Category</span>
+      </div>
+      <p class="cinema-modal__synopsis" id="modalDesc">Description</p>
+      <div class="cinema-modal__actions">
+        <a href="#contact" class="btn btn--primary" id="modalCta">Commission similar project</a>
+        <button type="button" class="btn btn--ghost" id="modalDismiss">Close preview</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Studio JavaScript -->
+<script src="js/main.js?v=23.0"></script>
+</body>
+</html>
