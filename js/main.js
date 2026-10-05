@@ -78,7 +78,7 @@
      2. SINGLE-PAGE SCROLLSPY & SMOOTH NAVIGATION
      ========================================================= */
   const nav = document.getElementById('siteNav');
-  const navSectionIds = ['top', 'telemetry', 'work', 'studio', 'services', 'process', 'contact'];
+  const navSectionIds = ['top', 'work', 'services', 'process', 'contact'];
   let isSmoothScrolling = false;
   let scrollTimeout = null;
 
@@ -133,11 +133,9 @@
 
   const navSectionScales = [
     { id: 'top', scale: 0.95 },
-    { id: 'telemetry', scale: 1.00 },
-    { id: 'work', scale: 1.06 },
-    { id: 'studio', scale: 1.12 },
-    { id: 'services', scale: 1.18 },
-    { id: 'process', scale: 1.24 },
+    { id: 'work', scale: 1.05 },
+    { id: 'services', scale: 1.15 },
+    { id: 'process', scale: 1.25 },
     { id: 'contact', scale: 1.30 }
   ];
 
@@ -625,7 +623,7 @@
   /* =========================================================
      7. SCROLL REVEAL ANIMATIONS (OTHER SECTIONS)
      ========================================================= */
-  const revealTargets = document.querySelectorAll('.service, .process__step, .principle-card, .telemetry__console');
+  const revealTargets = document.querySelectorAll('.service, .process__card, .hero__telemetry-hud');
   revealTargets.forEach(el => {
     el.style.opacity = '0';
     el.style.transform = 'translateY(22px)';
@@ -713,7 +711,7 @@
   /* =========================================================
      10. INTERACTIVE BOXES & CARDS DYNAMIC LIGHTING
      ========================================================= */
-  const interactiveCards = document.querySelectorAll('.reel__card, .principle-card, .hero__analytics-card, .service, .stat, .process__step, .contact__card-info, .contact__form');
+  const interactiveCards = document.querySelectorAll('.reel__card, .service, .process__card, .contact__card-info, .contact__form, .hero__telemetry-hud');
   interactiveCards.forEach(card => {
     card.addEventListener('mousemove', (e) => {
       const rect = card.getBoundingClientRect();
@@ -1315,15 +1313,11 @@
   function initMacScrollReveals() {
     const revealSelectors = [
       '.section-head',
-      '.hero__analytics-console',
-      '.hero__analytics-card',
+      '.hero__telemetry-hud',
       '.reel__card',
-      '.studio__statement',
-      '.studio__grid',
-      '.stat',
-      '.principle-card',
       '.service',
-      '.process__step',
+      '.process__frame',
+      '.process__card',
       '.contact__card-info',
       '.contact__form'
     ];
@@ -1333,12 +1327,9 @@
 
     targets.forEach(el => {
       el.classList.add('mac-reveal');
-      if (el.classList.contains('hero__analytics-grid') || 
-          el.classList.contains('reel') || 
-          el.classList.contains('studio__stats') || 
-          el.classList.contains('studio__principles') ||
-          el.classList.contains('services__list') ||
-          el.classList.contains('process__list')) {
+      if (el.classList.contains('reel') || 
+          el.classList.contains('services__list') || 
+          el.classList.contains('process__grid')) {
         el.classList.add('mac-stagger');
       }
     });
