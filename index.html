@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=32.0">
+<link rel="stylesheet" href="css/style.css?v=33.0">
 </head>
 <body>
 
@@ -46,7 +46,7 @@
   <!-- Central Circular Cockpit Dock (100% Height, 190px Grand Arch) -->
   <div class="side-nav__dock" id="sideNavDock">
     <!-- Precision SVG Chronometer & Aerospace Bezel with 2 External Cyber Circuit Tracks -->
-    <svg class="side-nav__arc-svg" viewBox="0 0 190 1000" preserveAspectRatio="none" aria-hidden="true">
+    <svg class="side-nav__arc-svg" viewBox="0 0 240 1000" preserveAspectRatio="none" aria-hidden="true">
       <defs>
         <linearGradient id="navDashedGrad" x1="0%" y1="0%" x2="0%" y2="100%">
           <stop offset="0%" stop-color="rgba(255, 122, 26, 0.2)"/>
@@ -79,16 +79,16 @@
         </linearGradient>
         <linearGradient id="lightningArcGrad" x1="0%" y1="0%" x2="0%" y2="100%">
           <stop offset="0%" stop-color="rgba(255, 160, 40, 0)"/>
-          <stop offset="10%" stop-color="rgba(255, 200, 80, 0.85)"/>
+          <stop offset="15%" stop-color="rgba(255, 200, 80, 0.85)"/>
           <stop offset="50%" stop-color="rgba(255, 255, 255, 1)"/>
-          <stop offset="90%" stop-color="rgba(255, 200, 80, 0.85)"/>
+          <stop offset="85%" stop-color="rgba(255, 200, 80, 0.85)"/>
           <stop offset="100%" stop-color="rgba(255, 160, 40, 0)"/>
         </linearGradient>
         <linearGradient id="photonLaserGrad" x1="0%" y1="0%" x2="0%" y2="100%">
           <stop offset="0%" stop-color="rgba(255, 122, 26, 0)"/>
-          <stop offset="25%" stop-color="rgba(255, 184, 92, 0.7)"/>
-          <stop offset="50%" stop-color="rgba(255, 255, 255, 1)"/>
-          <stop offset="75%" stop-color="rgba(255, 184, 92, 0.7)"/>
+          <stop offset="20%" stop-color="rgba(255, 150, 40, 0.8)"/>
+          <stop offset="50%" stop-color="#ffffff"/>
+          <stop offset="80%" stop-color="rgba(255, 150, 40, 0.8)"/>
           <stop offset="100%" stop-color="rgba(255, 122, 26, 0)"/>
         </linearGradient>
         <filter id="fireRimBlur" x="-30%" y="-10%" width="160%" height="120%">
@@ -96,37 +96,44 @@
         </filter>
       </defs>
 
-      <!-- Full Nav Bar Circle Lightning Arc (Completes Entire Circle from Top to Bottom) -->
-      <path class="side-nav__lightning-arc" d="M 0,0 A 190 500 0 0 1 0,1000" />
-      <path class="side-nav__photon-pulse" d="M 0,0 A 190 500 0 0 1 0,1000" />
-      <path class="side-nav__circuit-track1" d="M 0,15 A 185 485 0 0 1 0,985" stroke="url(#circuitGrad1)" stroke-width="1.2" stroke-dasharray="4 16" />
-      <path class="side-nav__circuit-track2" d="M 0,35 A 176 465 0 0 1 0,965" stroke="url(#circuitGrad2)" stroke-width="1.0" stroke-dasharray="8 22" />
+      <!-- Ambient Perimeter Track (Static Outer Guide Arch around the Nav Bar) -->
+      <path class="side-nav__track-outer" d="M 0,0 A 226 500 0 0 1 0,1000" />
 
-      <!-- 6 Radial Sector Partition Lines Radiating from Middle of Original Circle (0, 500) Delimiting 5 Buttons (Spacious Spacing) -->
+      <!-- Full Nav Bar Circle Lightning Arc Traveling around the perimeter -->
+      <path class="side-nav__lightning-arc" d="M 0,0 A 226 500 0 0 1 0,1000" />
+
+      <!-- High-Speed Photon Energy Laser traveling from Top to Bottom AROUND the Nav Bar -->
+      <path class="side-nav__photon-pulse" d="M 0,0 A 226 500 0 0 1 0,1000" />
+
+      <!-- Concentric Cyber Circuit Tracks -->
+      <path class="side-nav__circuit-track1" d="M 0,15 A 214 485 0 0 1 0,985" stroke="url(#circuitGrad1)" stroke-width="1.2" stroke-dasharray="4 16" />
+      <path class="side-nav__circuit-track2" d="M 0,35 A 202 465 0 0 1 0,965" stroke="url(#circuitGrad2)" stroke-width="1.0" stroke-dasharray="8 22" />
+
+      <!-- 6 Radial Sector Partition Lines Radiating from (0, 500) to Perimeter (226 Apex) -->
       <g class="side-nav__dividers" aria-hidden="true">
         <!-- Sector Divider 1: Top Boundary of Home (y = 165) -->
-        <line x1="0" y1="500" x2="141" y2="165" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
-        <circle cx="141" cy="165" r="1.8" fill="#ffb85c" opacity="0.45" />
+        <line x1="0" y1="500" x2="168" y2="165" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
+        <circle cx="168" cy="165" r="1.8" fill="#ffb85c" opacity="0.45" />
 
         <!-- Sector Divider 2: Midpoint Between Home and Work (y = 298) -->
-        <line x1="0" y1="500" x2="174" y2="298" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
-        <circle cx="174" cy="298" r="1.8" fill="#ffb85c" opacity="0.45" />
+        <line x1="0" y1="500" x2="207" y2="298" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
+        <circle cx="207" cy="298" r="1.8" fill="#ffb85c" opacity="0.45" />
         
         <!-- Sector Divider 3: Midpoint Between Work and Services (y = 433) -->
-        <line x1="0" y1="500" x2="188" y2="433" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
-        <circle cx="188" cy="433" r="1.8" fill="#ffb85c" opacity="0.45" />
+        <line x1="0" y1="500" x2="224" y2="433" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
+        <circle cx="224" cy="433" r="1.8" fill="#ffb85c" opacity="0.45" />
         
         <!-- Sector Divider 4: Midpoint Between Services and Process (y = 567) -->
-        <line x1="0" y1="500" x2="188" y2="567" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
-        <circle cx="188" cy="567" r="1.8" fill="#ffb85c" opacity="0.45" />
+        <line x1="0" y1="500" x2="224" y2="567" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
+        <circle cx="224" cy="567" r="1.8" fill="#ffb85c" opacity="0.45" />
         
         <!-- Sector Divider 5: Midpoint Between Process and Contact (y = 702) -->
-        <line x1="0" y1="500" x2="174" y2="702" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
-        <circle cx="174" cy="702" r="1.8" fill="#ffb85c" opacity="0.45" />
+        <line x1="0" y1="500" x2="207" y2="702" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
+        <circle cx="207" cy="702" r="1.8" fill="#ffb85c" opacity="0.45" />
 
         <!-- Sector Divider 6: Bottom Boundary of Contact (y = 835) -->
-        <line x1="0" y1="500" x2="141" y2="835" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
-        <circle cx="141" cy="835" r="1.8" fill="#ffb85c" opacity="0.45" />
+        <line x1="0" y1="500" x2="168" y2="835" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
+        <circle cx="168" cy="835" r="1.8" fill="#ffb85c" opacity="0.45" />
       </g>
     </svg>
 
@@ -801,21 +808,77 @@
   </div>
 </footer>
 
-<!-- CINEMA SHOWCASE LIGHTBOX MODAL -->
+<!-- CINEMA SHOWCASE ADVANCED LIGHTBOX MODAL (STRICTLY CONSTRAINED HEIGHT, FLOATING HUD CARD) -->
 <div class="cinema-modal" id="cinemaModal" aria-hidden="true" role="dialog" aria-labelledby="modalTitle">
   <div class="cinema-modal__dialog">
     <button class="cinema-modal__close" id="modalClose" aria-label="Close modal">&times;</button>
-    <div class="cinema-modal__screen">
+    <div class="cinema-modal__screen" id="modalScreen">
+      <!-- Cyber Viewfinder Corner HUD Brackets -->
+      <div class="cinema-modal__hud-corners" aria-hidden="true">
+        <span class="hud-c hud-c--tl"></span>
+        <span class="hud-c hud-c--tr"></span>
+        <span class="hud-c hud-c--bl"></span>
+        <span class="hud-c hud-c--br"></span>
+      </div>
+
+      <!-- Top Cinema Status HUD Bar -->
+      <div class="cinema-modal__hud-top" aria-hidden="true">
+        <div class="cinema-modal__hud-rec">
+          <span class="hud-rec-dot"></span>
+          <span class="hud-rec-text">MASTER 4K DCI</span>
+        </div>
+        <div class="cinema-modal__hud-tc" id="modalTimecode">TC 00:04:18:12</div>
+        <div class="cinema-modal__hud-specs">
+          <span class="hud-tag">ACEScg</span>
+          <span class="hud-tag">RAW 24FPS</span>
+          <span class="hud-tag">ATMOS 7.1</span>
+        </div>
+      </div>
+
       <img id="modalImg" src="assets/c_shot1.jpg" alt="Production frame preview">
+
+      <!-- Interactive Center Play Preview Icon -->
+      <div class="cinema-modal__screen-center" aria-hidden="true">
+        <div class="cinema-modal__play-btn">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+        </div>
+      </div>
+
+      <!-- Bottom Cinema Scrubber Timeline & Audio Waveform -->
+      <div class="cinema-modal__hud-timeline" aria-hidden="true">
+        <div class="cinema-modal__timeline-bar">
+          <div class="cinema-modal__timeline-prog"></div>
+          <div class="cinema-modal__timeline-head"></div>
+        </div>
+        <div class="cinema-modal__timeline-meta">
+          <span>00:00:00</span>
+          <div class="cinema-modal__audio-wave" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+          </div>
+          <span id="modalDuration">09:00:00</span>
+        </div>
+      </div>
     </div>
+
+    <!-- Master Information HUD Panel -->
     <div class="cinema-modal__info">
       <div class="cinema-modal__header">
-        <h2 class="cinema-modal__title" id="modalTitle">Project Title</h2>
+        <div class="cinema-modal__title-wrap">
+          <h2 class="cinema-modal__title" id="modalTitle">Project Title</h2>
+          <div class="cinema-modal__tech-specs">
+            <span class="tech-spec-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Runtime: <strong id="modalRuntime">Full Master Cut</strong></span>
+            <span class="tech-spec-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/></svg> Aspect: <strong>2.39:1 CinemaScope</strong></span>
+            <span class="tech-spec-item"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg> Pipeline: <strong>Generative AI + VFX</strong></span>
+          </div>
+        </div>
         <span class="cinema-modal__badge" id="modalBadge">Category</span>
       </div>
       <p class="cinema-modal__synopsis" id="modalDesc">Description</p>
       <div class="cinema-modal__actions">
-        <a href="#contact" class="btn btn--primary" id="modalCta">Commission similar project</a>
+        <a href="#contact" class="btn btn--primary" id="modalCta">
+          <span>Commission similar project</span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </a>
         <button type="button" class="btn btn--ghost" id="modalDismiss">Close preview</button>
       </div>
     </div>
@@ -823,6 +886,6 @@
 </div>
 
 <!-- Studio JavaScript -->
-<script src="js/main.js?v=32.0"></script>
+<script src="js/main.js?v=33.0"></script>
 </body>
 </html>

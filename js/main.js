@@ -448,6 +448,9 @@
   const modalTitle = document.getElementById('modalTitle');
   const modalBadge = document.getElementById('modalBadge');
   const modalDesc = document.getElementById('modalDesc');
+  const modalRuntime = document.getElementById('modalRuntime');
+  const modalTimecode = document.getElementById('modalTimecode');
+  const modalDuration = document.getElementById('modalDuration');
   const modalClose = document.getElementById('modalClose');
   const modalDismiss = document.getElementById('modalDismiss');
   const modalCta = document.getElementById('modalCta');
@@ -461,6 +464,7 @@
     const img = card.dataset.img || (imgEl ? imgEl.getAttribute('src') : 'assets/c_shot1.jpg');
     const desc = card.dataset.desc || 'Original high-fidelity production rendered by 100 International Universe generative pipelines under human creative direction.';
     const project = card.dataset.project || 'Short film';
+    const rawTag = card.querySelector('.reel__tag')?.textContent || '';
 
     if (modalImg) {
       modalImg.src = img;
@@ -469,6 +473,22 @@
     if (modalTitle) modalTitle.textContent = title;
     if (modalBadge) modalBadge.textContent = category;
     if (modalDesc) modalDesc.textContent = desc;
+    if (modalRuntime) {
+      modalRuntime.textContent = rawTag ? rawTag.trim() : 'Full Master Cut';
+    }
+    if (modalDuration) {
+      const minMatch = rawTag.match(/(\d+)\s*min/i);
+      if (minMatch) {
+        modalDuration.textContent = `0${minMatch[1]}:00:00`;
+      } else {
+        modalDuration.textContent = '04:18:00';
+      }
+    }
+    if (modalTimecode) {
+      const tcM = Math.floor(Math.random() * 8) + 1;
+      const tcS = Math.floor(Math.random() * 50) + 10;
+      modalTimecode.textContent = `TC 00:0${tcM}:${tcS}:12`;
+    }
 
     if (modalCta) {
       modalCta.onclick = (e) => {
@@ -793,9 +813,9 @@
     window.addEventListener('resize', resize, { passive: true });
 
     // -------------------------------------------------------------
-    // EXACT CIRCLE DOCK GEOMETRY (Rx = 198px, slightly outside 190px dock)
+    // EXACT CIRCLE DOCK GEOMETRY (Rx = 228px, aligning with 226px dock arc)
     // -------------------------------------------------------------
-    const Rx = 198;
+    const Rx = 228;
 
     function getArcPoint(u, yc) {
       const clampedU = Math.max(-0.995, Math.min(0.995, u));
