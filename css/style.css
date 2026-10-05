@@ -2107,8 +2107,8 @@ section{ padding:120px clamp(20px,6vw,64px); position:relative; scroll-margin-to
 
 /* =========================================================
    FILTERED CATEGORY SHOWCASE MODE (FOR SPECIFIC CATEGORIES)
-   When specific categories (Commercials, Brand & VFX, Short Films, Music Videos)
-   are selected, switch from sliding carousel to centered studio showcase grid.
+   In all other 4 categories (Short Films, Commercials, Music Videos, Brand & VFX),
+   every card matches the exact dimensions, scale (1.04), and highlighted styling of the center card.
    ========================================================= */
 .reel-carousel.is-filtered{
   display:block;
@@ -2121,7 +2121,7 @@ section{ padding:120px clamp(20px,6vw,64px); position:relative; scroll-margin-to
   mask-image:none !important;
   -webkit-mask-image:none !important;
   overflow:visible !important;
-  padding:16px 0 28px;
+  padding:20px 0 32px;
 }
 .reel-carousel.is-filtered .reel{
   width:100% !important;
@@ -2130,8 +2130,8 @@ section{ padding:120px clamp(20px,6vw,64px); position:relative; scroll-margin-to
   display:flex !important;
   flex-wrap:wrap !important;
   justify-content:center !important;
-  align-items:stretch !important;
-  gap:32px;
+  align-items:center !important;
+  gap:36px;
   transform:none !important;
   transition:none !important;
   padding:0;
@@ -2140,56 +2140,46 @@ section{ padding:120px clamp(20px,6vw,64px); position:relative; scroll-margin-to
   display:none !important;
 }
 
-/* Filtered Cards Appearance */
+/* Filtered Cards Appearance: Exact same size, scale and highlight styling as the center card */
 .reel-carousel.is-filtered .reel__card{
+  flex:0 0 clamp(310px, 31vw, 410px) !important;
+  width:clamp(310px, 31vw, 410px) !important;
+  min-width:290px !important;
+  max-width:420px !important;
+  padding:14px !important;
+  border-radius:20px !important;
   opacity:1 !important;
-  transform:scale(1) !important;
-  border-color:rgba(255, 122, 26, 0.42) !important;
-  box-shadow:0 18px 50px rgba(0,0,0,0.7), 0 0 28px rgba(255,106,26,0.18) !important;
+  transform:scale(1.04) !important;
+  border-color:rgba(255, 140, 40, 0.95) !important;
+  box-shadow:
+    0 0 45px rgba(255, 106, 26, 0.45),
+    0 24px 60px rgba(0, 0, 0, 0.92),
+    inset 0 1px 2px rgba(255, 255, 255, 0.3) !important;
   transition:transform 0.38s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.38s ease, border-color 0.38s ease !important;
+  z-index:5;
 }
 .reel-carousel.is-filtered .reel__card:hover{
-  transform:translateY(-8px) scale(1.02) !important;
-  border-color:rgba(255, 140, 40, 0.9) !important;
-  box-shadow:0 26px 65px rgba(0,0,0,0.85), 0 0 45px rgba(255,122,26,0.38) !important;
+  transform:scale(1.07) translateY(-4px) !important;
+  border-color:rgba(255, 160, 60, 1) !important;
+  box-shadow:
+    0 0 55px rgba(255, 122, 26, 0.6),
+    0 28px 70px rgba(0, 0, 0, 0.95),
+    inset 0 1px 2px rgba(255, 255, 255, 0.4) !important;
 }
-.reel-carousel.is-filtered .reel__card:hover .reel__title{
-  color:var(--orange-1);
+.reel-carousel.is-filtered .reel__title{
+  color:var(--orange-1) !important;
+  font-size:1.15rem !important;
+}
+.reel-carousel.is-filtered .reel__logline{
+  font-size:0.8rem !important;
+}
+.reel-carousel.is-filtered .reel__play{
+  box-shadow:0 0 24px rgba(255, 122, 26, 0.95) !important;
+  transform:scale(1.1) !important;
 }
 .reel-carousel.is-filtered .reel__card:hover .reel__play{
-  box-shadow:0 0 28px rgba(255, 122, 26, 0.95);
-  transform:scale(1.15);
-}
-
-/* Single Featured Card (Commercials 01, Brand & VFX 01, Music Videos 01) */
-.reel-carousel.is-filtered .reel[data-card-count="1"] .reel__card{
-  flex:0 1 min(660px, 100%) !important;
-  width:min(660px, 100%) !important;
-  max-width:660px !important;
-  padding:18px !important;
-  border-radius:24px !important;
-  border-color:rgba(255, 140, 40, 0.65) !important;
-  box-shadow:0 24px 65px rgba(0,0,0,0.8), 0 0 45px rgba(255,106,26,0.25) !important;
-}
-.reel-carousel.is-filtered .reel[data-card-count="1"] .reel__title{
-  font-size:1.35rem;
-}
-.reel-carousel.is-filtered .reel[data-card-count="1"] .reel__logline{
-  font-size:0.88rem;
-}
-
-/* Two Featured Cards (Short Films 02) */
-.reel-carousel.is-filtered .reel[data-card-count="2"] .reel__card{
-  flex:0 1 min(490px, calc(50% - 20px)) !important;
-  width:min(490px, calc(50% - 20px)) !important;
-  max-width:520px !important;
-}
-
-@media (max-width: 768px){
-  .reel-carousel.is-filtered .reel[data-card-count="2"] .reel__card{
-    flex:0 1 100% !important;
-    width:100% !important;
-  }
+  box-shadow:0 0 32px rgba(255, 122, 26, 1) !important;
+  transform:scale(1.18) !important;
 }
 
 .reel__frame{
