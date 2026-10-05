@@ -4,74 +4,63 @@
   /* ---------- Fullscreen Hero Background 3D Video Playback Engine ---------- */
   const heroBgVideo = document.getElementById('heroBgVideo');
   if (heroBgVideo) {
-    // 1.0x native smooth playback rate (eliminates frame-drop stutter)
-    heroBgVideo.playbackRate = 1.0;
-    heroBgVideo.defaultPlaybackRate = 1.0;
     heroBgVideo.muted = true;
     heroBgVideo.defaultMuted = true;
     heroBgVideo.playsInline = true;
     heroBgVideo.loop = true;
-    heroBgVideo.setAttribute('playsinline', '');
-    heroBgVideo.setAttribute('webkit-playsinline', '');
-    heroBgVideo.setAttribute('loop', '');
-    heroBgVideo.setAttribute('autoplay', '');
-    heroBgVideo.setAttribute('muted', '');
 
+    let isPlaying = false;
     const playVideo = () => {
-      heroBgVideo.playbackRate = 1.0;
-      if (heroBgVideo.paused) {
+      if (heroBgVideo.paused && !isPlaying) {
+        isPlaying = true;
+        heroBgVideo.muted = true;
         const playPromise = heroBgVideo.play();
         if (playPromise !== undefined) {
-          playPromise.catch(() => {
-            heroBgVideo.muted = true;
-            heroBgVideo.play().catch(() => {});
+          playPromise.then(() => {
+            isPlaying = false;
+          }).catch(() => {
+            isPlaying = false;
           });
+        } else {
+          isPlaying = false;
         }
       }
     };
 
-    heroBgVideo.addEventListener('loadedmetadata', playVideo);
-    heroBgVideo.addEventListener('canplay', playVideo);
-    heroBgVideo.addEventListener('ended', playVideo);
+    if (heroBgVideo.readyState >= 2) {
+      playVideo();
+    } else {
+      heroBgVideo.addEventListener('canplay', playVideo, { once: true });
+      heroBgVideo.addEventListener('loadeddata', playVideo, { once: true });
+    }
 
-    // Never stop or pause the video during scroll, touch, or gestures
-    heroBgVideo.addEventListener('pause', () => {
-      if (!document.hidden) {
-        playVideo();
-      }
-    });
-
-    playVideo();
-
-    // Auto-resume playback smoothly if user switches tabs and returns
+    // Auto-resume playback if tab becomes visible
     document.addEventListener('visibilitychange', () => {
       if (!document.hidden && heroBgVideo.paused) {
         playVideo();
       }
     });
 
-    // Keep video continuously playing across scroll, touch, touchpad, and icon clicks
-    const keepVideoPlaying = () => {
-      if (heroBgVideo.paused && !document.hidden) {
-        playVideo();
-      }
-    };
-    window.addEventListener('scroll', keepVideoPlaying, { passive: true });
-    window.addEventListener('wheel', keepVideoPlaying, { passive: true });
-    window.addEventListener('touchmove', keepVideoPlaying, { passive: true });
-    window.addEventListener('touchstart', keepVideoPlaying, { passive: true });
-    window.addEventListener('pointerdown', keepVideoPlaying, { passive: true });
-
-    // Fallback play trigger on first user interaction if browser blocked initial autoplay
-    const unlockPlay = () => {
+    // Handle seamless loop fallback
+    heroBgVideo.addEventListener('ended', () => {
+      heroBgVideo.currentTime = 0;
       playVideo();
-      window.removeEventListener('pointerdown', unlockPlay);
-      window.removeEventListener('scroll', unlockPlay);
-      window.removeEventListener('touchstart', unlockPlay);
+    });
+
+    // Resume cleanly if paused unexpectedly while page is visible
+    heroBgVideo.addEventListener('pause', () => {
+      if (!document.hidden) {
+        setTimeout(playVideo, 40);
+      }
+    });
+
+    // Single gesture unlock if browser autoplay policy required interaction
+    const unlockPlay = () => {
+      if (heroBgVideo.paused) playVideo();
     };
-    window.addEventListener('pointerdown', unlockPlay, { passive: true, once: true });
-    window.addEventListener('scroll', unlockPlay, { passive: true, once: true });
-    window.addEventListener('touchstart', unlockPlay, { passive: true, once: true });
+    window.addEventListener('click', unlockPlay, { once: true, passive: true });
+    window.addEventListener('touchstart', unlockPlay, { once: true, passive: true });
+    window.addEventListener('scroll', unlockPlay, { once: true, passive: true });
   }
 
   /* =========================================================
@@ -437,12 +426,16 @@
           const category = card.dataset.categoryTag || '';
           if (filter === 'all' || category.includes(filter)) {
             card.classList.remove('is-hidden');
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
+            card.style.opacity = '';
+            card.style.transform = '';
           } else {
             card.classList.add('is-hidden');
           }
         });
+
+        if (window.refreshReelCarousel) {
+          window.refreshReelCarousel(filter);
+        }
       });
     });
   }
@@ -455,6 +448,9 @@
   const modalTitle = document.getElementById('modalTitle');
   const modalBadge = document.getElementById('modalBadge');
   const modalDesc = document.getElementById('modalDesc');
+  const modalRuntime = document.getElementById('modalRuntime');
+  const modalTimecode = document.getElementById('modalTimecode');
+  const modalDuration = document.getElementById('modalDuration');
   const modalClose = document.getElementById('modalClose');
   const modalDismiss = document.getElementById('modalDismiss');
   const modalCta = document.getElementById('modalCta');
@@ -468,6 +464,7 @@
     const img = card.dataset.img || (imgEl ? imgEl.getAttribute('src') : 'assets/c_shot1.jpg');
     const desc = card.dataset.desc || 'Original high-fidelity production rendered by 100 International Universe generative pipelines under human creative direction.';
     const project = card.dataset.project || 'Short film';
+    const rawTag = card.querySelector('.reel__tag')?.textContent || '';
 
     if (modalImg) {
       modalImg.src = img;
@@ -476,6 +473,22 @@
     if (modalTitle) modalTitle.textContent = title;
     if (modalBadge) modalBadge.textContent = category;
     if (modalDesc) modalDesc.textContent = desc;
+    if (modalRuntime) {
+      modalRuntime.textContent = rawTag ? rawTag.trim() : 'Full Master Cut';
+    }
+    if (modalDuration) {
+      const minMatch = rawTag.match(/(\d+)\s*min/i);
+      if (minMatch) {
+        modalDuration.textContent = `0${minMatch[1]}:00:00`;
+      } else {
+        modalDuration.textContent = '04:18:00';
+      }
+    }
+    if (modalTimecode) {
+      const tcM = Math.floor(Math.random() * 8) + 1;
+      const tcS = Math.floor(Math.random() * 50) + 10;
+      modalTimecode.textContent = `TC 00:0${tcM}:${tcS}:12`;
+    }
 
     if (modalCta) {
       modalCta.onclick = (e) => {
@@ -516,7 +529,21 @@
   }
 
   document.querySelectorAll('.reel__card').forEach(card => {
-    card.addEventListener('click', () => openCinemaModal(card));
+    card.addEventListener('click', (e) => {
+      const carouselEl = document.getElementById('reelCarousel');
+      const carouselTrack = document.getElementById('reelTrack');
+      if (carouselTrack && card.parentElement === carouselTrack) {
+        if (!carouselEl?.classList.contains('is-filtered') && !card.classList.contains('is-center')) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (window.reelCarouselGoToCard) {
+            window.reelCarouselGoToCard(card);
+          }
+          return;
+        }
+      }
+      openCinemaModal(card);
+    });
   });
 
   if (modalClose) modalClose.addEventListener('click', closeCinemaModal);
@@ -562,23 +589,26 @@
      6. REEL CARDS SCROLL REVEAL & HOVER VIDEO AUTO-PLAY ENGINE
      ========================================================= */
   if (reelCards && reelCards.length) {
-    // Normal smooth scroll reveal without 3D perspective distortion
-    reelCards.forEach(card => {
-      card.style.opacity = '0';
-      card.style.transform = 'translateY(22px)';
-      card.style.transition = 'opacity .7s var(--ease), transform .7s var(--ease), box-shadow .35s var(--ease)';
-    });
-
-    const cardIO = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
-          cardIO.unobserve(entry.target);
-        }
+    const hasCarousel = document.getElementById('reelCarousel');
+    if (!hasCarousel) {
+      // Normal smooth scroll reveal without 3D perspective distortion
+      reelCards.forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(22px)';
+        card.style.transition = 'opacity .7s var(--ease), transform .7s var(--ease), box-shadow .35s var(--ease)';
       });
-    }, { threshold: 0.1 });
-    reelCards.forEach(card => cardIO.observe(card));
+
+      const cardIO = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '';
+            entry.target.style.transform = '';
+            cardIO.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      reelCards.forEach(card => cardIO.observe(card));
+    }
 
     // Hover Video Preview Auto-Play (smooth individual video clip playback)
     reelCards.forEach(card => {
@@ -632,8 +662,8 @@
   const revealIO = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
+        entry.target.style.opacity = '';
+        entry.target.style.transform = '';
         revealIO.unobserve(entry.target);
       }
     });
@@ -731,6 +761,9 @@
   function initPageEnhancements() {
     initNavFireEngine();
     initMacScrollReveals();
+    initReelCarousel();
+    initServicesAutoHighlight();
+    initProcessAutoHighlight();
   }
 
   /* =========================================================
@@ -780,9 +813,9 @@
     window.addEventListener('resize', resize, { passive: true });
 
     // -------------------------------------------------------------
-    // EXACT CIRCLE DOCK GEOMETRY (Rx = 198px, slightly outside 190px dock)
+    // EXACT CIRCLE DOCK GEOMETRY (Rx = 228px, aligning with 226px dock arc)
     // -------------------------------------------------------------
-    const Rx = 198;
+    const Rx = 228;
 
     function getArcPoint(u, yc) {
       const clampedU = Math.max(-0.995, Math.min(0.995, u));
@@ -1049,7 +1082,7 @@
     // -------------------------------------------------------------
     // BACKGROUND EMBERS (GINI PUPURU - Living Atmospheric Animated Sparks)
     // -------------------------------------------------------------
-    const MAX_BG_EMBERS = 80;
+    const MAX_BG_EMBERS = 42;
     const bgEmbers = [];
 
     class BgEmber {
@@ -1314,7 +1347,7 @@
     const revealSelectors = [
       '.section-head',
       '.hero__telemetry-hud',
-      '.reel__card',
+      '.reel-carousel',
       '.service',
       '.process__frame',
       '.process__card',
@@ -1375,6 +1408,455 @@
 
     // Initial view fallback
     setTimeout(checkReveals, 150);
+  }
+
+  /* =========================================================
+     13. SHOWREEL SINGLE-LINE AUTO-PLAY CENTERING CAROUSEL
+     ========================================================= */
+  function initReelCarousel() {
+    const carousel = document.getElementById('reelCarousel');
+    const viewport = document.getElementById('reelViewport');
+    const track = document.getElementById('reelTrack');
+    const prevBtn = document.getElementById('reelPrev');
+    const nextBtn = document.getElementById('reelNext');
+    const indicatorsContainer = document.getElementById('reelIndicators');
+
+    if (!carousel || !viewport || !track) return;
+
+    let currentIndex = 0;
+    let autoplayInterval = null;
+    let isUserInteracting = false;
+    let isVisibleInView = true;
+
+    function getVisibleCards() {
+      return Array.from(track.querySelectorAll('.reel__card')).filter(card => {
+        return !card.classList.contains('is-hidden') && window.getComputedStyle(card).display !== 'none';
+      });
+    }
+
+    function renderIndicators(cards) {
+      if (!indicatorsContainer) return;
+      indicatorsContainer.innerHTML = '';
+      if (cards.length <= 1) return;
+
+      cards.forEach((card, idx) => {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'reel-carousel__dot' + (idx === currentIndex ? ' is-active' : '');
+        dot.setAttribute('aria-label', `Go to reel ${idx + 1}: ${card.dataset.title || ''}`);
+        dot.addEventListener('click', (e) => {
+          e.preventDefault();
+          goToIndex(idx);
+          restartAutoplay();
+        });
+        indicatorsContainer.appendChild(dot);
+      });
+    }
+
+    function updateActiveStates(cards) {
+      cards.forEach((card, idx) => {
+        if (idx === currentIndex) {
+          card.classList.add('is-center');
+          card.setAttribute('aria-current', 'true');
+        } else {
+          card.classList.remove('is-center');
+          card.removeAttribute('aria-current');
+        }
+      });
+
+      if (indicatorsContainer) {
+        const dots = indicatorsContainer.querySelectorAll('.reel-carousel__dot');
+        dots.forEach((dot, idx) => {
+          if (idx === currentIndex) {
+            dot.classList.add('is-active');
+          } else {
+            dot.classList.remove('is-active');
+          }
+        });
+      }
+    }
+
+    function centerCurrentCard(smooth = true) {
+      if (carousel.classList.contains('is-filtered')) return;
+      const cards = getVisibleCards();
+      if (!cards.length) return;
+
+      if (currentIndex >= cards.length) currentIndex = 0;
+      if (currentIndex < 0) currentIndex = cards.length - 1;
+
+      const card = cards[currentIndex];
+      if (!card) return;
+
+      const viewportWidth = viewport.clientWidth;
+      const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
+      const targetOffset = cardCenter - (viewportWidth / 2);
+
+      if (!smooth) {
+        track.style.transition = 'none';
+      } else {
+        track.style.transition = 'transform 0.65s cubic-bezier(0.16, 1, 0.3, 1)';
+      }
+
+      track.style.transform = `translateX(-${targetOffset}px)`;
+
+      if (!smooth) {
+        void track.offsetWidth;
+        track.style.transition = 'transform 0.65s cubic-bezier(0.16, 1, 0.3, 1)';
+      }
+
+      updateActiveStates(cards);
+    }
+
+    function goToIndex(idx, smooth = true) {
+      if (carousel.classList.contains('is-filtered')) return;
+      const cards = getVisibleCards();
+      if (!cards.length) return;
+      currentIndex = (idx + cards.length) % cards.length;
+      centerCurrentCard(smooth);
+    }
+
+    function nextSlide() {
+      goToIndex(currentIndex + 1);
+    }
+
+    function prevSlide() {
+      goToIndex(currentIndex - 1);
+    }
+
+    function startAutoplay() {
+      if (carousel.classList.contains('is-filtered')) return;
+      stopAutoplay();
+      autoplayInterval = setInterval(() => {
+        if (!isUserInteracting && isVisibleInView && document.visibilityState === 'visible' && !carousel.classList.contains('is-filtered')) {
+          nextSlide();
+        }
+      }, 3500);
+    }
+
+    function stopAutoplay() {
+      if (autoplayInterval) {
+        clearInterval(autoplayInterval);
+        autoplayInterval = null;
+      }
+    }
+
+    function restartAutoplay() {
+      stopAutoplay();
+      startAutoplay();
+    }
+
+    window.reelCarouselGoToCard = function(targetCard) {
+      if (carousel.classList.contains('is-filtered')) return;
+      const cards = getVisibleCards();
+      const idx = cards.indexOf(targetCard);
+      if (idx !== -1) {
+        goToIndex(idx);
+        restartAutoplay();
+      }
+    };
+
+    window.refreshReelCarousel = function(currentFilter = 'all') {
+      const isFiltered = currentFilter !== 'all';
+      const cards = getVisibleCards();
+
+      if (isFiltered) {
+        carousel.classList.add('is-filtered');
+        track.dataset.cardCount = String(cards.length);
+        track.style.transform = '';
+        track.style.transition = '';
+        stopAutoplay();
+
+        cards.forEach(c => {
+          c.classList.remove('is-center');
+          c.removeAttribute('aria-current');
+        });
+      } else {
+        carousel.classList.remove('is-filtered');
+        track.dataset.cardCount = String(cards.length);
+        track.style.transition = 'transform 0.65s cubic-bezier(0.16, 1, 0.3, 1)';
+        currentIndex = 0;
+        renderIndicators(cards);
+        centerCurrentCard(false);
+        restartAutoplay();
+      }
+    };
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        prevSlide();
+        restartAutoplay();
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        nextSlide();
+        restartAutoplay();
+      });
+    }
+
+    carousel.addEventListener('mouseenter', () => {
+      isUserInteracting = true;
+    });
+    carousel.addEventListener('mouseleave', () => {
+      isUserInteracting = false;
+    });
+
+    track.querySelectorAll('.reel__card').forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        if (!carousel.classList.contains('is-filtered')) {
+          const cards = getVisibleCards();
+          const idx = cards.indexOf(card);
+          if (idx !== -1) {
+            goToIndex(idx);
+          }
+        }
+      });
+    });
+
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let isSwiping = false;
+
+    viewport.addEventListener('touchstart', (e) => {
+      isUserInteracting = true;
+      if (e.touches.length === 1) {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        isSwiping = true;
+      }
+    }, { passive: true });
+
+    viewport.addEventListener('touchmove', (e) => {
+      if (!isSwiping || e.touches.length !== 1) return;
+      const diffY = Math.abs(e.touches[0].clientY - touchStartY);
+      const diffX = Math.abs(e.touches[0].clientX - touchStartX);
+      if (diffY > diffX && diffY > 15) {
+        isSwiping = false;
+      }
+    }, { passive: true });
+
+    viewport.addEventListener('touchend', (e) => {
+      isUserInteracting = false;
+      if (!isSwiping) return;
+      isSwiping = false;
+      if (e.changedTouches.length === 1) {
+        const touchEndX = e.changedTouches[0].clientX;
+        const diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > 45) {
+          if (diff > 0) {
+            nextSlide();
+          } else {
+            prevSlide();
+          }
+          restartAutoplay();
+        }
+      }
+    }, { passive: true });
+
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          isVisibleInView = entry.isIntersecting;
+        });
+      }, { threshold: 0.15 });
+      io.observe(carousel);
+    }
+
+    let resizeTimer = null;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        if (!carousel.classList.contains('is-filtered')) {
+          centerCurrentCard(false);
+        }
+      }, 80);
+    }, { passive: true });
+
+    const initialCards = getVisibleCards();
+    renderIndicators(initialCards);
+    setTimeout(() => {
+      centerCurrentCard(false);
+      startAutoplay();
+    }, 120);
+  }
+
+  /* =========================================================
+     14. SERVICES SECTION AUTOMATIC SEQUENTIAL HIGHLIGHT
+     ========================================================= */
+  function initServicesAutoHighlight() {
+    const services = Array.from(document.querySelectorAll('.services .service'));
+    if (!services.length) return;
+
+    let activeIndex = 0;
+    let timer = null;
+    let isPaused = false;
+    let isInView = false;
+
+    function highlightIndex(idx) {
+      services.forEach((card, i) => {
+        if (i === idx) {
+          card.classList.add('is-auto-highlighted');
+        } else {
+          card.classList.remove('is-auto-highlighted');
+        }
+      });
+    }
+
+    function advance() {
+      if (!isPaused && isInView && document.visibilityState === 'visible') {
+        activeIndex = (activeIndex + 1) % services.length;
+        highlightIndex(activeIndex);
+      }
+    }
+
+    function startTimer() {
+      stopTimer();
+      timer = setInterval(advance, 2800);
+    }
+
+    function stopTimer() {
+      if (timer) {
+        clearInterval(timer);
+        timer = null;
+      }
+    }
+
+    services.forEach((card, idx) => {
+      card.addEventListener('mouseenter', () => {
+        isPaused = true;
+        stopTimer();
+        activeIndex = idx;
+        highlightIndex(idx);
+      });
+
+      card.addEventListener('mouseleave', () => {
+        isPaused = false;
+        startTimer();
+      });
+
+      card.addEventListener('touchstart', () => {
+        isPaused = true;
+        stopTimer();
+        activeIndex = idx;
+        highlightIndex(idx);
+      }, { passive: true });
+
+      card.addEventListener('touchend', () => {
+        isPaused = false;
+        startTimer();
+      }, { passive: true });
+    });
+
+    const section = document.querySelector('.services');
+    if (section && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          isInView = entry.isIntersecting;
+          if (isInView) {
+            highlightIndex(activeIndex);
+            startTimer();
+          } else {
+            stopTimer();
+          }
+        });
+      }, { threshold: 0.15 });
+      io.observe(section);
+    } else {
+      isInView = true;
+      highlightIndex(activeIndex);
+      startTimer();
+    }
+  }
+
+  /* =========================================================
+     15. PROCESS SECTION AUTOMATIC PIPELINE HIGHLIGHT
+     ========================================================= */
+  function initProcessAutoHighlight() {
+    const processCards = Array.from(document.querySelectorAll('.process__console .process__card, .process .process__card'));
+    if (!processCards.length) return;
+
+    let activeIndex = 0;
+    let timer = null;
+    let isPaused = false;
+    let isInView = false;
+
+    function highlightIndex(idx) {
+      processCards.forEach((card, i) => {
+        if (i === idx) {
+          card.classList.add('is-auto-highlighted');
+        } else {
+          card.classList.remove('is-auto-highlighted');
+        }
+      });
+    }
+
+    function advance() {
+      if (!isPaused && isInView && document.visibilityState === 'visible') {
+        activeIndex = (activeIndex + 1) % processCards.length;
+        highlightIndex(activeIndex);
+      }
+    }
+
+    function startTimer() {
+      stopTimer();
+      timer = setInterval(advance, 2500);
+    }
+
+    function stopTimer() {
+      if (timer) {
+        clearInterval(timer);
+        timer = null;
+      }
+    }
+
+    processCards.forEach((card, idx) => {
+      card.addEventListener('mouseenter', () => {
+        isPaused = true;
+        stopTimer();
+        activeIndex = idx;
+        highlightIndex(idx);
+      });
+
+      card.addEventListener('mouseleave', () => {
+        isPaused = false;
+        startTimer();
+      });
+
+      card.addEventListener('touchstart', () => {
+        isPaused = true;
+        stopTimer();
+        activeIndex = idx;
+        highlightIndex(idx);
+      }, { passive: true });
+
+      card.addEventListener('touchend', () => {
+        isPaused = false;
+        startTimer();
+      }, { passive: true });
+    });
+
+    const section = document.querySelector('.process');
+    if (section && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          isInView = entry.isIntersecting;
+          if (isInView) {
+            highlightIndex(activeIndex);
+            startTimer();
+          } else {
+            stopTimer();
+          }
+        });
+      }, { threshold: 0.15 });
+      io.observe(section);
+    } else {
+      isInView = true;
+      highlightIndex(activeIndex);
+      startTimer();
+    }
   }
 
   if (document.readyState === 'loading') {
