@@ -1815,31 +1815,45 @@ section{ padding:120px clamp(20px,6vw,64px); position:relative; scroll-margin-to
 .work-section .section-head{
   max-width:100% !important;
   width:100% !important;
-  margin-bottom:36px;
+  margin-bottom:34px;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:10px;
 }
 .work-section .section-head h2{
   max-width:100% !important;
+  width:100%;
   white-space:nowrap;
   font-size:clamp(1.85rem, 3.8vw, 3.2rem);
+  line-height:1.15;
+  margin:0;
 }
 .work-section .section-head--split{
   width:100% !important;
   display:flex;
-  justify-content:space-between;
-  align-items:flex-end;
-  gap:36px;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:10px;
 }
 .work-section .section-head__note{
-  max-width:540px;
+  max-width:100% !important;
+  width:100% !important;
+  white-space:nowrap;
+  font-size:clamp(0.72rem, 0.94vw, 0.94rem);
+  color:var(--text-dim);
+  line-height:1.45;
+  letter-spacing:-0.005em;
+  margin:0;
 }
 @media (max-width: 991px){
   .work-section .section-head h2{
     white-space:normal;
   }
-  .work-section .section-head--split{
-    flex-direction:column;
-    align-items:flex-start;
-    gap:16px;
+  .work-section .section-head__note{
+    white-space:normal;
+    font-size:0.88rem;
+    line-height:1.6;
   }
 }
 
