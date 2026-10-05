@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=24.0">
+<link rel="stylesheet" href="css/style.css?v=28.0">
 </head>
 <body>
 
@@ -84,6 +84,13 @@
           <stop offset="90%" stop-color="rgba(255, 200, 80, 0.85)"/>
           <stop offset="100%" stop-color="rgba(255, 160, 40, 0)"/>
         </linearGradient>
+        <linearGradient id="photonLaserGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="rgba(255, 122, 26, 0)"/>
+          <stop offset="25%" stop-color="rgba(255, 184, 92, 0.7)"/>
+          <stop offset="50%" stop-color="rgba(255, 255, 255, 1)"/>
+          <stop offset="75%" stop-color="rgba(255, 184, 92, 0.7)"/>
+          <stop offset="100%" stop-color="rgba(255, 122, 26, 0)"/>
+        </linearGradient>
         <filter id="fireRimBlur" x="-30%" y="-10%" width="160%" height="120%">
           <feGaussianBlur stdDeviation="8" result="blur"/>
         </filter>
@@ -91,40 +98,44 @@
 
       <!-- Full Nav Bar Circle Lightning Arc (Completes Entire Circle from Top to Bottom) -->
       <path class="side-nav__lightning-arc" d="M 0,0 A 190 500 0 0 1 0,1000" />
+      <path class="side-nav__photon-pulse" d="M 0,0 A 190 500 0 0 1 0,1000" />
       <path class="side-nav__circuit-track1" d="M 0,15 A 185 485 0 0 1 0,985" stroke="url(#circuitGrad1)" stroke-width="1.2" stroke-dasharray="4 16" />
       <path class="side-nav__circuit-track2" d="M 0,35 A 176 465 0 0 1 0,965" stroke="url(#circuitGrad2)" stroke-width="1.0" stroke-dasharray="8 22" />
 
-      <!-- 6 Radial Sector Partition Lines Radiating from Middle of Original Circle (0, 500) Delimiting 5 Buttons -->
+      <!-- 6 Radial Sector Partition Lines Radiating from Middle of Original Circle (0, 500) Delimiting 5 Buttons (Spacious Spacing) -->
       <g class="side-nav__dividers" aria-hidden="true">
-        <!-- Sector Divider 1: Top Boundary of Home -->
-        <line x1="0" y1="500" x2="75" y2="40" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
-        <circle cx="75" cy="40" r="1.8" fill="#ffb85c" opacity="0.45" />
+        <!-- Sector Divider 1: Top Boundary of Home (y = 165) -->
+        <line x1="0" y1="500" x2="141" y2="165" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
+        <circle cx="141" cy="165" r="1.8" fill="#ffb85c" opacity="0.45" />
 
-        <!-- Sector Divider 2: Midpoint Between Home and Work -->
-        <line x1="0" y1="500" x2="156" y2="215" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
-        <circle cx="156" cy="215" r="1.8" fill="#ffb85c" opacity="0.45" />
+        <!-- Sector Divider 2: Midpoint Between Home and Work (y = 298) -->
+        <line x1="0" y1="500" x2="174" y2="298" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
+        <circle cx="174" cy="298" r="1.8" fill="#ffb85c" opacity="0.45" />
         
-        <!-- Sector Divider 3: Midpoint Between Work and Services -->
-        <line x1="0" y1="500" x2="187" y2="405" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
-        <circle cx="187" cy="405" r="1.8" fill="#ffb85c" opacity="0.45" />
+        <!-- Sector Divider 3: Midpoint Between Work and Services (y = 433) -->
+        <line x1="0" y1="500" x2="188" y2="433" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
+        <circle cx="188" cy="433" r="1.8" fill="#ffb85c" opacity="0.45" />
         
-        <!-- Sector Divider 4: Midpoint Between Services and Process -->
-        <line x1="0" y1="500" x2="187" y2="595" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
-        <circle cx="187" cy="595" r="1.8" fill="#ffb85c" opacity="0.45" />
+        <!-- Sector Divider 4: Midpoint Between Services and Process (y = 567) -->
+        <line x1="0" y1="500" x2="188" y2="567" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
+        <circle cx="188" cy="567" r="1.8" fill="#ffb85c" opacity="0.45" />
         
-        <!-- Sector Divider 5: Midpoint Between Process and Contact -->
-        <line x1="0" y1="500" x2="156" y2="785" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
-        <circle cx="156" cy="785" r="1.8" fill="#ffb85c" opacity="0.45" />
+        <!-- Sector Divider 5: Midpoint Between Process and Contact (y = 702) -->
+        <line x1="0" y1="500" x2="174" y2="702" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
+        <circle cx="174" cy="702" r="1.8" fill="#ffb85c" opacity="0.45" />
 
-        <!-- Sector Divider 6: Bottom Boundary of Contact -->
-        <line x1="0" y1="500" x2="75" y2="960" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
-        <circle cx="75" cy="960" r="1.8" fill="#ffb85c" opacity="0.45" />
+        <!-- Sector Divider 6: Bottom Boundary of Contact (y = 835) -->
+        <line x1="0" y1="500" x2="141" y2="835" stroke="url(#navDividerGrad)" stroke-width="1.3" opacity="0.65" />
+        <circle cx="141" cy="835" r="1.8" fill="#ffb85c" opacity="0.45" />
       </g>
     </svg>
 
     <!-- Modern 3D Holographic Resonator Stage (Kinetic Ambient Depth Waves) -->
     <div class="side-nav__holo-stage" aria-hidden="true">
       <div class="side-nav__holo-ambient"></div>
+      <div class="side-nav__holo-ripple side-nav__holo-ripple--1"></div>
+      <div class="side-nav__holo-ripple side-nav__holo-ripple--2"></div>
+      <div class="side-nav__holo-ripple side-nav__holo-ripple--3"></div>
     </div>
 
     <!-- Center Hub with 3D "100" Logo Stage -->
@@ -228,7 +239,7 @@
 
     <div class="hero__logo-spacer" aria-hidden="true"></div>
     <h2 class="hero__title">
-      <br><br><br><br>
+      <br><br>
       <span class="hero__title-top">A HUNDRED IDEAS.</span>
     </h2>
     <h3 class="hero__title3">
@@ -302,7 +313,7 @@
         <span class="eyebrow__dot"></span>
         <span>Selected Showcase &bull; Studio Archive</span>
       </div>
-      <h2>Recent frames from<br>the universe.</h2>
+      <h2 class="work-section__title">Recent frames from the universe.</h2>
     </div>
     <p class="section-head__note">A curated archive of narrative shorts, global brand spots and music videos engineered through human-directed generative AI pipelines. Click any frame to launch the 4K Cinema Showcase.</p>
   </div>
@@ -337,7 +348,11 @@
     </div>
   </div>
 
-  <div class="reel">
+  <div class="reel-carousel-wrap">
+    <button type="button" class="reel-carousel__nav reel-carousel__nav--prev" id="reelPrevBtn" aria-label="Previous Showcase Card">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <div class="reel" id="reelTrack">
     <!-- Shot 1: Ashen Horizon -->
     <article class="reel__card"
              data-category-tag="short sci-fi"
@@ -537,6 +552,10 @@
         </div>
       </div>
     </article>
+    </div>
+    <button type="button" class="reel-carousel__nav reel-carousel__nav--next" id="reelNextBtn" aria-label="Next Showcase Card">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
   </div>
 </section>
 
@@ -803,6 +822,6 @@
 </div>
 
 <!-- Studio JavaScript -->
-<script src="js/main.js?v=24.0"></script>
+<script src="js/main.js?v=28.0"></script>
 </body>
 </html>

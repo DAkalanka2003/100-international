@@ -435,14 +435,24 @@
 
         reelCards.forEach(card => {
           const category = card.dataset.categoryTag || '';
+          card.style.opacity = '';
+          card.style.transform = '';
           if (filter === 'all' || category.includes(filter)) {
             card.classList.remove('is-hidden');
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
           } else {
             card.classList.add('is-hidden');
+            card.classList.remove('is-center');
           }
         });
+
+        // Center first visible card in carousel
+        const track = document.getElementById('reelTrack');
+        const visible = Array.from(reelCards).filter(c => !c.classList.contains('is-hidden'));
+        if (track && visible.length) {
+          const trackCenter = track.offsetWidth / 2;
+          const cardCenter = visible[0].offsetLeft + (visible[0].offsetWidth / 2);
+          track.scrollTo({ left: Math.max(0, cardCenter - trackCenter), behavior: 'smooth' });
+        }
       });
     });
   }
@@ -516,7 +526,11 @@
   }
 
   document.querySelectorAll('.reel__card').forEach(card => {
-    card.addEventListener('click', () => openCinemaModal(card));
+    card.addEventListener('click', (e) => {
+      if (card.classList.contains('is-center') || e.target.closest('.reel__play-wrap') || e.target.closest('.reel__play')) {
+        openCinemaModal(card);
+      }
+    });
   });
 
   if (modalClose) modalClose.addEventListener('click', closeCinemaModal);
@@ -731,6 +745,9 @@
   function initPageEnhancements() {
     initNavFireEngine();
     initMacScrollReveals();
+    initReelCarousel();
+    initServicesAutoplay();
+    initProcessAutoplay();
   }
 
   /* =========================================================
@@ -1373,8 +1390,277 @@
     window.addEventListener('scroll', onScrollRevealTick, { passive: true });
     window.addEventListener('resize', onScrollRevealTick, { passive: true });
 
-    // Initial view fallback
-    setTimeout(checkReveals, 150);
+  /* =========================================================
+     14. SHOWREEL SINGLE-ROW AUTOPLAY CAROUSEL WITH CENTER HIGHLIGHT
+     ========================================================= */
+  function initReelCarousel() {
+    const track = document.getElementById('reelTrack');
+    if (!track) return;
+
+    const cards = Array.from(track.querySelectorAll('.reel__card'));
+    if (!cards.length) return;
+
+    const prevBtn = document.getElementById('reelPrevBtn');
+    const nextBtn = document.getElementById('reelNextBtn');
+
+    let currentIndex = 0;
+    let isUserInteracting = false;
+    let autoplayTimer = null;
+    let scrollTimeout = null;
+
+    function getVisibleCards() {
+      return cards.filter(card => !card.classList.contains('is-hidden') && card.offsetParent !== null);
+    }
+
+    function setCenterCard(card) {
+      cards.forEach(c => {
+        if (c === card) {
+          c.classList.add('is-center');
+          const video = c.querySelector('.reel__card-video');
+          if (video) {
+            try {
+              c.classList.add('is-video-playing');
+              const previewStart = parseFloat(c.dataset.previewStart || '0');
+              if (video.readyState >= 1) video.currentTime = previewStart;
+              const p = video.play();
+              if (p !== undefined) p.catch(() => {});
+            } catch (e) {}
+          }
+        } else {
+          c.classList.remove('is-center');
+          const video = c.querySelector('.reel__card-video');
+          if (video) {
+            c.classList.remove('is-video-playing');
+            try { video.pause(); } catch (e) {}
+          }
+        }
+      });
+    }
+
+    function scrollToCard(card, smooth = true) {
+      if (!card) return;
+      const trackCenter = track.offsetWidth / 2;
+      const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
+      const targetScroll = Math.max(0, cardCenter - trackCenter);
+
+      track.scrollTo({
+        left: targetScroll,
+        behavior: smooth ? 'smooth' : 'auto'
+      });
+
+      setCenterCard(card);
+      const visible = getVisibleCards();
+      const idx = visible.indexOf(card);
+      if (idx !== -1) currentIndex = idx;
+    }
+
+    function scrollToIndex(index, smooth = true) {
+      const visible = getVisibleCards();
+      if (!visible.length) return;
+      currentIndex = (index + visible.length) % visible.length;
+      scrollToCard(visible[currentIndex], smooth);
+    }
+
+    function detectCenterCard() {
+      const visible = getVisibleCards();
+      if (!visible.length) return;
+      const trackCenter = track.scrollLeft + (track.offsetWidth / 2);
+
+      let closestCard = visible[0];
+      let minDistance = Infinity;
+
+      visible.forEach(card => {
+        const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
+        const dist = Math.abs(trackCenter - cardCenter);
+        if (dist < minDistance) {
+          minDistance = dist;
+          closestCard = card;
+        }
+      });
+
+      setCenterCard(closestCard);
+      currentIndex = visible.indexOf(closestCard);
+    }
+
+    function startAutoplay() {
+      stopAutoplay();
+      autoplayTimer = setInterval(() => {
+        if (!isUserInteracting && document.visibilityState === 'visible') {
+          const visible = getVisibleCards();
+          if (visible.length > 1) {
+            currentIndex = (currentIndex + 1) % visible.length;
+            scrollToCard(visible[currentIndex], true);
+          }
+        }
+      }, 3500);
+    }
+
+    function stopAutoplay() {
+      if (autoplayTimer) {
+        clearInterval(autoplayTimer);
+        autoplayTimer = null;
+      }
+    }
+
+    // Scroll listener on track
+    track.addEventListener('scroll', () => {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(detectCenterCard, 50);
+    }, { passive: true });
+
+    // Hover & touch pause
+    track.addEventListener('mouseenter', () => { isUserInteracting = true; stopAutoplay(); });
+    track.addEventListener('mouseleave', () => { isUserInteracting = false; startAutoplay(); });
+    track.addEventListener('touchstart', () => { isUserInteracting = true; stopAutoplay(); }, { passive: true });
+    track.addEventListener('touchend', () => {
+      isUserInteracting = false;
+      setTimeout(startAutoplay, 1500);
+    }, { passive: true });
+
+    // Card click: center card if clicked
+    cards.forEach(card => {
+      card.addEventListener('click', (e) => {
+        if (!card.classList.contains('is-center')) {
+          e.stopPropagation();
+          scrollToCard(card, true);
+        }
+      });
+    });
+
+    // Prev / Next button listeners
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => {
+        stopAutoplay();
+        scrollToIndex(currentIndex - 1, true);
+        setTimeout(startAutoplay, 2000);
+      });
+    }
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        stopAutoplay();
+        scrollToIndex(currentIndex + 1, true);
+        setTimeout(startAutoplay, 2000);
+      });
+    }
+
+    // Initial positioning
+    setTimeout(() => {
+      const visible = getVisibleCards();
+      if (visible.length) {
+        scrollToIndex(0, false);
+      }
+      startAutoplay();
+    }, 350);
+  }
+
+  /* =========================================================
+     15. SERVICES CARDS SEQUENTIAL AUTOPLAY HIGHLIGHT
+     ========================================================= */
+  function initServicesAutoplay() {
+    const serviceCards = Array.from(document.querySelectorAll('.service'));
+    if (!serviceCards.length) return;
+
+    let activeServiceIndex = 0;
+    let serviceTimer = null;
+    let isUserHovering = false;
+
+    function highlightService(index) {
+      serviceCards.forEach((card, i) => {
+        if (i === index) {
+          card.classList.add('is-highlighted');
+        } else {
+          card.classList.remove('is-highlighted');
+        }
+      });
+    }
+
+    function startServiceCycle() {
+      stopServiceCycle();
+      serviceTimer = setInterval(() => {
+        if (!isUserHovering && document.visibilityState === 'visible') {
+          activeServiceIndex = (activeServiceIndex + 1) % serviceCards.length;
+          highlightService(activeServiceIndex);
+        }
+      }, 2800);
+    }
+
+    function stopServiceCycle() {
+      if (serviceTimer) {
+        clearInterval(serviceTimer);
+        serviceTimer = null;
+      }
+    }
+
+    serviceCards.forEach((card, idx) => {
+      card.addEventListener('mouseenter', () => {
+        isUserHovering = true;
+        activeServiceIndex = idx;
+        highlightService(idx);
+        stopServiceCycle();
+      });
+      card.addEventListener('mouseleave', () => {
+        isUserHovering = false;
+        startServiceCycle();
+      });
+    });
+
+    highlightService(0);
+    startServiceCycle();
+  }
+
+  /* =========================================================
+     16. PROCESS CONSOLE CARDS SEQUENTIAL AUTOPLAY HIGHLIGHT
+     ========================================================= */
+  function initProcessAutoplay() {
+    const processCards = Array.from(document.querySelectorAll('.process__card'));
+    if (!processCards.length) return;
+
+    let activeProcessIndex = 0;
+    let processTimer = null;
+    let isUserHovering = false;
+
+    function highlightProcess(index) {
+      processCards.forEach((card, i) => {
+        if (i === index) {
+          card.classList.add('is-highlighted');
+        } else {
+          card.classList.remove('is-highlighted');
+        }
+      });
+    }
+
+    function startProcessCycle() {
+      stopProcessCycle();
+      processTimer = setInterval(() => {
+        if (!isUserHovering && document.visibilityState === 'visible') {
+          activeProcessIndex = (activeProcessIndex + 1) % processCards.length;
+          highlightProcess(activeProcessIndex);
+        }
+      }, 2600);
+    }
+
+    function stopProcessCycle() {
+      if (processTimer) {
+        clearInterval(processTimer);
+        processTimer = null;
+      }
+    }
+
+    processCards.forEach((card, idx) => {
+      card.addEventListener('mouseenter', () => {
+        isUserHovering = true;
+        activeProcessIndex = idx;
+        highlightProcess(idx);
+        stopProcessCycle();
+      });
+      card.addEventListener('mouseleave', () => {
+        isUserHovering = false;
+        startProcessCycle();
+      });
+    });
+
+    highlightProcess(0);
+    startProcessCycle();
   }
 
   if (document.readyState === 'loading') {
