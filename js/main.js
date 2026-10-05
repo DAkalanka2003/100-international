@@ -445,7 +445,7 @@
         });
 
         if (window.refreshReelCarousel) {
-          window.refreshReelCarousel();
+          window.refreshReelCarousel(filter);
         }
       });
     });
@@ -521,9 +521,10 @@
 
   document.querySelectorAll('.reel__card').forEach(card => {
     card.addEventListener('click', (e) => {
+      const carouselEl = document.getElementById('reelCarousel');
       const carouselTrack = document.getElementById('reelTrack');
       if (carouselTrack && card.parentElement === carouselTrack) {
-        if (!card.classList.contains('is-center')) {
+        if (!carouselEl?.classList.contains('is-filtered') && !card.classList.contains('is-center')) {
           e.preventDefault();
           e.stopPropagation();
           if (window.reelCarouselGoToCard) {
@@ -1467,6 +1468,7 @@
     }
 
     function centerCurrentCard(smooth = true) {
+      if (carousel.classList.contains('is-filtered')) return;
       const cards = getVisibleCards();
       if (!cards.length) return;
 
@@ -1497,6 +1499,7 @@
     }
 
     function goToIndex(idx, smooth = true) {
+      if (carousel.classList.contains('is-filtered')) return;
       const cards = getVisibleCards();
       if (!cards.length) return;
       currentIndex = (idx + cards.length) % cards.length;
@@ -1512,9 +1515,10 @@
     }
 
     function startAutoplay() {
+      if (carousel.classList.contains('is-filtered')) return;
       stopAutoplay();
       autoplayInterval = setInterval(() => {
-        if (!isUserInteracting && isVisibleInView && document.visibilityState === 'visible') {
+        if (!isUserInteracting && isVisibleInView && document.visibilityState === 'visible' && !carousel.classList.contains('is-filtered')) {
           nextSlide();
         }
       }, 3500);
@@ -1533,6 +1537,7 @@
     }
 
     window.reelCarouselGoToCard = function(targetCard) {
+      if (carousel.classList.contains('is-filtered')) return;
       const cards = getVisibleCards();
       const idx = cards.indexOf(targetCard);
       if (idx !== -1) {
@@ -1541,12 +1546,30 @@
       }
     };
 
-    window.refreshReelCarousel = function() {
+    window.refreshReelCarousel = function(currentFilter = 'all') {
+      const isFiltered = currentFilter !== 'all';
       const cards = getVisibleCards();
-      currentIndex = 0;
-      renderIndicators(cards);
-      centerCurrentCard(false);
-      restartAutoplay();
+
+      if (isFiltered) {
+        carousel.classList.add('is-filtered');
+        track.dataset.cardCount = String(cards.length);
+        track.style.transform = '';
+        track.style.transition = '';
+        stopAutoplay();
+
+        cards.forEach(c => {
+          c.classList.remove('is-center');
+          c.removeAttribute('aria-current');
+        });
+      } else {
+        carousel.classList.remove('is-filtered');
+        track.dataset.cardCount = String(cards.length);
+        track.style.transition = 'transform 0.65s cubic-bezier(0.16, 1, 0.3, 1)';
+        currentIndex = 0;
+        renderIndicators(cards);
+        centerCurrentCard(false);
+        restartAutoplay();
+      }
     };
 
     if (prevBtn) {
@@ -1625,7 +1648,9 @@
     window.addEventListener('resize', () => {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => {
-        centerCurrentCard(false);
+        if (!carousel.classList.contains('is-filtered')) {
+          centerCurrentCard(false);
+        }
       }, 80);
     }, { passive: true });
 
